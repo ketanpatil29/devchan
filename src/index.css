@@ -1,3 +1,13 @@
 @import "tailwindcss";
 
+.pixel-font {
+  font-family: "Pixelify Sans", sans-serif;
+}
 
+.exo-font {
+  font-family: "Exo 2", sans-serif;
+}
+
+.jersey-font {
+  font-family: "Jersey 20", sans-serif;
+}
