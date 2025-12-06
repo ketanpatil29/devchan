@@ -1,6 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
+const TypingText = ({ text, speed = 120 }) => {
+  const [displayMessage, setDisplayMessage] = useState("");
+
+  useEffect(() => {
+    let i = 0;
+    const interval = setInterval(() => {
+      setDisplayMessage(text.slice(0, i + 1));
+      i++;
+      if (i === text.length) clearInterval(interval);
+    }, speed);
+
+    return () => clearInterval(interval);
+  }, [text, speed]);
+
+  return (
+    <p className="text-white text-2xl mt-4 text-center w-[80%]" style={{ whiteSpace: "pre-line" }}>{displayMessage}</p>
+  );
+};
+
 const Dashboard = () => {
   const [searchParams] = useSearchParams();
   const [username, setUsername] = useState("");
@@ -24,12 +43,16 @@ const Dashboard = () => {
   }, [searchParams]);
 
   return (
-    <section className="relative h-screen">
+    <section className="exo-font relative h-screen">
 
-      <header className="fixed top-0 left-0 w-full h-16 flex items-center px-6 z-50">
+      <header className="shadow shadow-zinc-800 fixed top-0 left-0 w-full h-16 flex items-center px-6 z-50">
+        <div>
+          <p className="text-white text-xl">DEVCHAN</p>
+        </div>
+
         <div className="ml-auto">
-          <button className="bg-emerald-400 px-3 py-2 rounded text-xl">Logout</button>
-          <button className="bg-emerald-400 px-4 py-2 rounded-[50%] text-xl ml-2 cursor-pointer" onClick={() => {setOpenProfileMenu(!openProfileMenu)}}>
+          <button className="bg-white px-3 py-2 rounded text-xl">Logout</button>
+          <button className="bg-white px-4 py-2 rounded-[50%] text-xl ml-2 cursor-pointer" onClick={() => {setOpenProfileMenu(!openProfileMenu)}}>
             P
           </button>
 
@@ -45,13 +68,26 @@ const Dashboard = () => {
           }
         </div>
       </header>
-      <div className="pt-24 flex flex-col items-center">
-        <h1 className="text-5xl mb-4">DEVCHAN Dashboard</h1>
+
+      <div className="bg-black pt-24 flex flex-col items-center h-screen">
+        <TypingText
+          text={`Welcome, ${username}!\n We request you to complete your profile so you can find the best matches for you to connect with.`}
+          speed={60} // smaller = faster typing
+        />
+
         {username ? (
-          <p className="text-green-700 text-xl">Welcome, {username}!</p>
+          <p className="text-green-700 text-xl"></p>
           ) : (
           <p className="text-red-500">You are not logged in.</p>
         )}
+
+        <button className="bg-zinc-900 border border-zinc-800 text-white rounded-md p-3 mt-3">Find your match</button>
+
+
+      </div>
+
+      <div>
+        
       </div>
     </section>
   );
