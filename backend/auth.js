@@ -98,4 +98,33 @@ router.get(
     }
 );
 
+router.patch("/user/update/:username", async (req, res) => {
+  try {
+    const username = req.params.username;
+
+    const updatedUser = await User.findOneAndUpdate(
+      { username },
+      {
+        interests: req.body.interests,
+        lookingFor: req.body.lookingFor,
+        role: req.body.role,
+        experience: req.body.experience,
+        languages: req.body.languages,
+        profileCompleted: true
+      },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json({ success: true, message: "Profile updated!", user: updatedUser });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Update failed" });
+  }
+});
+
 export default router;
