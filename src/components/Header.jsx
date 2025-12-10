@@ -1,6 +1,7 @@
 import React from "react";
-import {FaBell} from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+
+import notificationIcon from "../assets/notification.png";
 
 const Header = ({ userData, openProfileMenu, setOpenProfileMenu, handleLogout }) => {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ const Header = ({ userData, openProfileMenu, setOpenProfileMenu, handleLogout })
       <div className="flex items-center ml-auto">
 
         <button className="w-10 h-10 rounded-full border border-zinc-800 ml-2">
-          <FaBell className="w-6 h-6 text-white" />
+          <img src={notificationIcon} alt="notifications" className="w-6 h-6 object-contain" />
         </button>
 
         {userData && (
