@@ -147,7 +147,7 @@ const Dashboard = () => {
 
         {/* SHOW MATCH CARD */}
         {currentMatch && (
-          <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 mt-6 w-full sm:w-[80%] text-white flex flex-col items-center">
+          <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 mt-6 mb-6 w-full sm:w-[80%] text-white flex flex-col items-center">
 
             <img
               src={currentMatch.avatar}
@@ -158,7 +158,7 @@ const Dashboard = () => {
             <h2 className="text-xl sm:text-2xl font-bold mt-4 text-center">{currentMatch.username}</h2>
 
             <p className="text-zinc-400 text-center mt-2 w-full sm:w-[70%]">
-              {currentMatch.bio || "No bio available."}
+              {currentMatch.githubBio || "No bio available."}
             </p>
 
             <div className="mt-4 flex gap-2 flex-wrap justify-center">
