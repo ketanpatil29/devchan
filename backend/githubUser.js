@@ -31,10 +31,11 @@ router.get("/match/:username", async (req, res) => {
       status: "Available",
       $or: [
         { role: user.role },
-        { languages: { $elemMatch: { $in: user.languages } } },
-        { interests: { $elemMatch: { $in: user.interests } } }
+        ...(user.languages.length > 0 ? [{ languages: { $in: user.languages } }] : []),
+        ...(user.interests.length > 0 ? [{ interests: { $in: user.interests } }] : [])
       ]
     });
+
 
 
     res.json({ success: true, matches });
