@@ -15,7 +15,10 @@ const Profile = () => {
   useEffect(() => {
     const username = localStorage.getItem("githubUsername");
 
-    fetch(`https://devchan.onrender.com/user/me/${username}`)
+    fetch(`https://devchan.onrender.com/user/me/${username}`, {
+        method: "GET",
+        credentials: "include"
+    })
       .then(res => res.json())
       .then(data => {
         setUserData(data);

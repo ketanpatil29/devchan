@@ -10,7 +10,10 @@ const Layout = () => {
     const storedUsername = localStorage.getItem("githubUsername");
 
     if (storedUsername) {
-      fetch(`https://devchan.onrender.com/user/me/${storedUsername}`)
+      fetch(`https://devchan.onrender.com/user/me/${storedUsername}`, {
+        method: "GET",
+        credentials: "include"
+      })
         .then(res => res.json())
         .then(data => setUserData(data))
         .catch(err => console.error(err));

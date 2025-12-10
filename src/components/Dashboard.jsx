@@ -52,7 +52,10 @@ const Dashboard = () => {
       setUsername(u);
       localStorage.setItem("githubUsername", u);
 
-      fetch(`https://devchan.onrender.com/user/me/${u}`)
+      fetch(`https://devchan.onrender.com/user/me/${u}`,{
+        method: "GET",
+        credentials: "include"
+      })
         .then((res) => res.json())
         .then((data) => {
           setUserData(data);
@@ -80,7 +83,10 @@ const Dashboard = () => {
     setMatchLoading(true);
     setNoMatch(false);
 
-    fetch(`https://devchan.onrender.com/user/match/${username}`)
+    fetch(`https://devchan.onrender.com/user/match/${username}`, {
+      method: "GET",
+      credentials: "include"
+    })
       .then((res) => res.json())
       .then((data) => {
         if (data?.noMoreMatches) {
