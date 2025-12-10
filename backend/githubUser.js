@@ -31,14 +31,19 @@ router.get("/match/:username", async (req, res) => {
       status: "Available",
       $or: [
         { role: user.role },
-        ...(user.languages.length > 0 ? [{ languages: { $in: user.languages } }] : []),
-        ...(user.interests.length > 0 ? [{ interests: { $in: user.interests } }] : [])
+        { languages: { $in: user.languages.length ? user.languages : [""] } },
+        { interests: { $in: user.interests.length ? user.interests : [""] } }
       ]
     });
 
+    if (!matches.length) {
+      return res.json({ noMoreMatches: true });
+    }
 
+    // Pick a random match to return
+    const randomIndex = Math.floor(Math.random() * matches.length);
+    res.json(matches[randomIndex]);
 
-    res.json({ success: true, matches });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Match fetch failed" });
