@@ -52,7 +52,7 @@ const Dashboard = () => {
       setUsername(u);
       localStorage.setItem("githubUsername", u);
 
-      fetch(`https://devchan.onrender.com/user/me/${u}`,{
+      fetch(`https://devchan.onrender.com/user/me/${u}`, {
         method: "GET",
         credentials: "include"
       })
@@ -104,11 +104,11 @@ const Dashboard = () => {
   };
 
   return (
-    <section className="bg-black exo-font relative min-h-screen pb-20">
+    <section className="bg-black exo-font relative min-h-screen pb-20 px-4 sm:px-6 lg:px-0">
 
       {/* ONLY show if profile NOT completed */}
       {!profileCompleted && (
-        <div className="w-[60%] mx-auto flex flex-col items-center mt-10">
+        <div className="w-full sm:w-[80%] md:w-[60%] mx-auto flex flex-col items-center mt-10 text-center">
           <TypingText
             text={`Welcome, ${username}!\nWe request you to complete your profile so you can find the best matches for you to connect with.`}
             speed={60}
@@ -116,7 +116,7 @@ const Dashboard = () => {
 
           <button
             onClick={() => navigate("/profile")}
-            className="bg-zinc-900 border border-zinc-800 text-white rounded-md p-3 mt-4 cursor-pointer hover:bg-zinc-800 transition"
+            className="bg-zinc-900 border border-zinc-800 text-white rounded-md p-3 mt-4 cursor-pointer hover:bg-zinc-800 transition w-full sm:w-auto"
           >
             Complete your profile
           </button>
@@ -124,40 +124,40 @@ const Dashboard = () => {
       )}
 
       {/* MATCH CARD */}
-      <div className="bg-zinc-950 border border-zinc-800 pt-10 flex flex-col items-center w-[1000px] h-[550px] rounded-lg mx-auto mt-16 shadow-xl">
+      <div className="bg-zinc-950 border border-zinc-800 pt-10 flex flex-col items-center w-full sm:w-[90%] md:w-[1000px] max-w-full h-auto md:h-[550px] rounded-lg mx-auto mt-16 shadow-xl px-4">
 
         <button
           onClick={fetchMatch}
-          className="bg-zinc-900 border border-zinc-800 text-white rounded-md p-3 cursor-pointer hover:bg-zinc-800 transition"
+          className="bg-zinc-900 border border-zinc-800 text-white rounded-md p-3 cursor-pointer hover:bg-zinc-800 transition w-full sm:w-auto"
         >
           Find your match
         </button>
 
         {/* LOADING STATE */}
         {matchLoading && (
-          <p className="text-zinc-400 mt-8 text-lg">Searching...</p>
+          <p className="text-zinc-400 mt-8 text-lg text-center">Searching...</p>
         )}
 
         {/* NO MATCH FOUND */}
         {noMatch && (
-          <p className="text-zinc-400 mt-8 text-lg">
+          <p className="text-zinc-400 mt-8 text-lg text-center">
             No more matches found. Come back later!
           </p>
         )}
 
         {/* SHOW MATCH CARD */}
         {currentMatch && (
-          <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 mt-6 w-[80%] text-white flex flex-col items-center">
+          <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 mt-6 w-full sm:w-[80%] text-white flex flex-col items-center">
 
             <img
               src={currentMatch.avatar}
               alt="avatar"
-              className="w-32 h-32 rounded-full border border-zinc-700"
+              className="w-24 h-24 sm:w-32 sm:h-32 rounded-full border border-zinc-700"
             />
 
-            <h2 className="text-2xl font-bold mt-4">{currentMatch.username}</h2>
+            <h2 className="text-xl sm:text-2xl font-bold mt-4 text-center">{currentMatch.username}</h2>
 
-            <p className="text-zinc-400 text-center mt-2 w-[70%]">
+            <p className="text-zinc-400 text-center mt-2 w-full sm:w-[70%]">
               {currentMatch.bio || "No bio available."}
             </p>
 
@@ -174,7 +174,7 @@ const Dashboard = () => {
 
             <button
               onClick={fetchMatch}
-              className="mt-6 bg-zinc-800 border border-zinc-700 px-4 py-2 rounded-md text-white hover:bg-zinc-700 transition"
+              className="mt-6 bg-zinc-800 border border-zinc-700 px-4 py-2 rounded-md text-white hover:bg-zinc-700 transition w-full sm:w-auto"
             >
               Next Match
             </button>
@@ -182,6 +182,7 @@ const Dashboard = () => {
         )}
       </div>
     </section>
+
   );
 };
 
