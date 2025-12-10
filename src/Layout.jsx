@@ -10,7 +10,7 @@ const Layout = () => {
     const storedUsername = localStorage.getItem("githubUsername");
 
     if (storedUsername) {
-      fetch(`http://localhost:3000/user/me/${storedUsername}`)
+      fetch(`https://devchan.onrender.com/user/me/${storedUsername}`)
         .then(res => res.json())
         .then(data => setUserData(data))
         .catch(err => console.error(err));
@@ -19,11 +19,11 @@ const Layout = () => {
 
   const handleLogout = async () => {
     try {
-      await fetch("http://localhost:3000/auth/logout", {
+      await fetch("https://devchan.onrender.com/auth/logout", {
         method: "GET",
         credentials: "include"
       });
-      
+
       window.location.href = "/";
     } catch (e) {
       console.error(e);
