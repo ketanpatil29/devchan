@@ -1,4 +1,5 @@
 import React from "react";
+import { FaGithub } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const Header = ({ userData, openProfileMenu, setOpenProfileMenu, handleLogout }) => {
@@ -10,6 +11,10 @@ const Header = ({ userData, openProfileMenu, setOpenProfileMenu, handleLogout })
       <p className="text-white text-xl">DEVCHAN</p>
 
       <div className="flex items-center ml-auto">
+
+        <button className="w-10 h-10 rounded-full border border-zinc-800 ml-2">
+          <FaBell className="w-6 h-6 text-white" />
+        </button>
 
         {userData && (
           <button
