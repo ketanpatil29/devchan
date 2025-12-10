@@ -16,6 +16,9 @@ const UserSchema = new mongoose.Schema({
   experience: { type: Number, default: 0 },
   languages: { type: Array, default: [] },
   profileCompleted: { type: Boolean, default: false },
+
+  // ADD STATUS FIELD
+  status: { type: String, default: "Available" }, // <-- add this
 });
 
 const User = mongoose.model("User", UserSchema);
