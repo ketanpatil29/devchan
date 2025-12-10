@@ -52,7 +52,7 @@ const Dashboard = () => {
       setUsername(u);
       localStorage.setItem("githubUsername", u);
 
-      fetch(`http://localhost:3000/user/me/${u}`)
+      fetch(`https://devchan.onrender.com/user/me/${u}`)
         .then((res) => res.json())
         .then((data) => {
           setUserData(data);
@@ -80,7 +80,7 @@ const Dashboard = () => {
     setMatchLoading(true);
     setNoMatch(false);
 
-    fetch(`http://localhost:3000/user/match/${username}`)
+    fetch(`https://devchan.onrender.com/user/match/${username}`)
       .then((res) => res.json())
       .then((data) => {
         if (data?.noMoreMatches) {

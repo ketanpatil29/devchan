@@ -14,7 +14,7 @@ import githubUserRoutes from "./githubUser.js";
 const server = express();
 
 server.use(cors({
-    origin: "http://localhost:5173",
+    origin: "https://devchan.vercel.app/",
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     credentials: true,
 }));
@@ -43,6 +43,6 @@ server.get("/", (req, res) => {
     res.send("Server listening...")
 })
 
-server.listen(3000, () => {
-    console.log("Server is running on http://localhost:3000");
+server.listen(process.env.PORT || 3000, () => {
+    console.log(`Server is running on ${PORT}`);
 })

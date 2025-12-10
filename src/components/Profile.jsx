@@ -15,7 +15,7 @@ const Profile = () => {
   useEffect(() => {
     const username = localStorage.getItem("githubUsername");
 
-    fetch(`http://localhost:3000/user/me/${username}`)
+    fetch(`https://devchan.onrender.com/user/me/${username}`)
       .then(res => res.json())
       .then(data => {
         setUserData(data);
@@ -46,7 +46,7 @@ const Profile = () => {
       experience,
     };
 
-    await fetch(`http://localhost:3000/auth/user/update/${username}`, {
+    await fetch(`https://devchan.onrender.com/auth/user/update/${username}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),

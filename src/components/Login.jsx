@@ -9,7 +9,7 @@ const Login = () => {
       <h1 className="exo-font font-bold absolute top-70 left-220 text-[#F7F4EA] text-[100px] mb-4">CHAN</h1>
       <h1 className="exo-font font-light absolute top-70 left-286 text-[#F7F4EA] text-[100px] mb-4">NEL</h1>
       <a
-        href="http://localhost:3000/auth/github"
+        href="https://devchan.onrender.com/auth/github"
         className="flex bg-zinc-900 px-4 py-2 rounded text-[#F7F4EA] border border-zinc-800 text-xl"
       >
         Login with GitHub
