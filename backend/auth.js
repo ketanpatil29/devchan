@@ -14,7 +14,7 @@ passport.use(
         {
             clientID: process.env.GITHUB_CLIENT_ID,
             clientSecret: process.env.GITHUB_CLIENT_SECRET,
-            callbackURL: "https://devchan.onrender.com/auth/github/callback"
+            callbackURL: `${process.env.BACKEND_URL}/auth/github/callback`
         },
         async function (accessToken, refreshToken, profile, done)
         {
@@ -74,7 +74,7 @@ router.get(
     passport.authenticate("github", { failureRedirect: "/login" }),
     (req, res) => {
         const username = req.user.user.username;
-        res.redirect(`https://devchan.vercel.app/dashboard?token=${req.user.accessToken}&username=${username}`);
+        res.redirect(`${process.env.FRONTEND_URL}/dashboard?token=${req.user.accessToken}&username=${username}`);
     }
 );
 

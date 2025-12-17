@@ -14,7 +14,7 @@ import githubUserRoutes from "./githubUser.js";
 const server = express();
 
 server.use(cors({
-    origin: "https://devchan.vercel.app",
+    origin: process.env.FRONTEND_URL,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     credentials: true,
 }));

@@ -52,7 +52,7 @@ const Dashboard = () => {
       setUsername(u);
       localStorage.setItem("githubUsername", u);
 
-      fetch(`https://devchan.onrender.com/user/me/${u}`, {
+      fetch(`${import.meta.env.VITE_API_URL}/user/me/${u}`, {
         method: "GET",
         credentials: "include"
       })
@@ -83,7 +83,7 @@ const Dashboard = () => {
     setMatchLoading(true);
     setNoMatch(false);
 
-    fetch(`https://devchan.onrender.com/user/match/${username}`, {
+    fetch(`${import.meta.env.VITE_API_URL}/user/match/${username}`, {
       method: "GET",
       credentials: "include"
     })
@@ -106,7 +106,8 @@ const Dashboard = () => {
   return (
     <section className="bg-black exo-font relative min-h-screen pb-20 px-4 sm:px-6 lg:px-0">
 
-      {/* ONLY show if profile NOT completed */}
+      <div className="grid grid-cols-3">
+
       {!profileCompleted && (
         <div className="w-full sm:w-[80%] md:w-[60%] mx-auto flex flex-col items-center mt-10 text-center">
           <TypingText
@@ -123,7 +124,6 @@ const Dashboard = () => {
         </div>
       )}
 
-      {/* MATCH CARD */}
       <div className="bg-zinc-950 border border-zinc-800 pt-10 flex flex-col items-center w-full sm:w-[90%] md:w-[1000px] max-w-full h-auto md:h-[550px] rounded-lg mx-auto mt-16 shadow-xl px-4">
 
         <button
@@ -133,19 +133,16 @@ const Dashboard = () => {
           Find your match
         </button>
 
-        {/* LOADING STATE */}
         {matchLoading && (
           <p className="text-zinc-400 mt-8 text-lg text-center">Searching...</p>
         )}
 
-        {/* NO MATCH FOUND */}
         {noMatch && (
           <p className="text-zinc-400 mt-8 text-lg text-center">
             No more matches found. Come back later!
           </p>
         )}
 
-        {/* SHOW MATCH CARD */}
         {currentMatch && (
           <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 mt-6 mb-6 w-full sm:w-[80%] text-white flex flex-col items-center">
 
@@ -180,6 +177,11 @@ const Dashboard = () => {
             </button>
           </div>
         )}
+      </div>
+
+      <div>
+        <h1 className="text-white">HELLO</h1>
+      </div>
       </div>
     </section>
 
