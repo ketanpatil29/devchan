@@ -108,8 +108,8 @@ const Dashboard = () => {
 
       <div className="grid grid-cols-3">
 
-        <div className="bg-zinc-950 border border-zinc-800 pt-10 flex flex-col items-center w-full sm:w-[90%] md:w-[1000px] max-w-full h-auto md:h-[550px] rounded-lg mx-auto mt-16 shadow-xl px-">
-          <h1>Left side</h1>
+        <div className="bg-zinc-950 border border-zinc-800 pt-10 flex flex-col items-center w-full sm:w-[90%] md:w-[500px] max-w-full h-auto md:h-[550px] rounded-lg mx-auto mt-16 shadow-xl px-">
+          <h1 className="text-white">Left side</h1>
         </div>
 
       {!profileCompleted && (
@@ -183,8 +183,8 @@ const Dashboard = () => {
         )}
       </div>
 
-      <div>
-        <h1 className="text-white">HELLO</h1>
+      <div className="bg-zinc-950 border border-zinc-800 pt-10 flex flex-col items-center w-full sm:w-[90%] md:w-[400px] max-w-full h-auto md:h-[550px] rounded-lg mx-auto mt-16 shadow-xl px-">
+        <h1 className="text-white">Friends</h1>
       </div>
       </div>
     </section>
