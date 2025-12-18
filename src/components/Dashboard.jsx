@@ -104,10 +104,15 @@ const Dashboard = () => {
   return (
     <section className="bg-black exo-font relative min-h-screen pb-20 px-4 sm:px-6 lg:px-0">
 
-      <div className="grid grid-cols-3 max-w-[1500px]">
+      <div className="grid grid-cols-3 lg:grid-cols-[300px_1fr_340px] max-w-full mx-4 gap-8">
 
-        <div className="bg-zinc-950 border border-zinc-800 pt-10 flex flex-col items-center w-full sm:w-[90%] md:w-[500px] max-w-full h-auto md:h-[550px] rounded-lg mx-auto mt-16 shadow-xl px-">
-          <h1 className="text-white">Left side</h1>
+        <div className="space-y-6 mt-4">
+          <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-4">
+            <h2 className="text-white font-semibold mb-2">Community</h2>
+            <p className="text-zinc-400 text-sm">
+              Join dev discussions, tips, and help.
+            </p>
+          </div>
         </div>
 
         {!profileCompleted && (
@@ -181,9 +186,21 @@ const Dashboard = () => {
           )}
         </div>
 
-        <div className="bg-zinc-950 border border-zinc-800 pt-10 flex flex-col items-center w-full sm:w-[90%] md:w-[400px] max-w-full h-auto md:h-[550px] rounded-lg mx-auto mt-4 shadow-xl px-">
-          <h1 className="text-white">Friends</h1>
+        <div className="space-y-6 mt-2">
+          <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-4 h-[260px] flex flex-col">
+            <h2 className="text-white font-semibold mb-2">Messages</h2>
+
+            <div className="flex-1 overflow-y-auto text-zinc-400 text-sm space-y-2">
+              <p>👤 Ketan: Hey!</p>
+              <p>👤 Riya: Let’s build something 🔥</p>
+            </div>
+
+            <button className="mt-3 bg-zinc-800 py-2 rounded text-sm hover:bg-zinc-700">
+              Open Chat
+            </button>
+          </div>
         </div>
+
       </div>
     </section>
 

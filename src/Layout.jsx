@@ -43,7 +43,7 @@ const Layout = () => {
       />
 
       {/* Main content below header */}
-      <main className="pt-20">
+      <main className="pt-18">
         <Outlet />
       </main>
     </div>
