@@ -15,7 +15,7 @@ const Profile = () => {
   useEffect(() => {
     const username = localStorage.getItem("githubUsername");
 
-    fetch(`https://devchan.onrender.com/user/me/${username}`, {
+    fetch(`${import.meta.env.VITE_API_URL}/user/me/${username}`, {
         method: "GET",
         credentials: "include"
     })
@@ -49,7 +49,7 @@ const Profile = () => {
       experience,
     };
 
-    await fetch(`https://devchan.onrender.com/auth/user/update/${username}`, {
+    await fetch(`${import.meta.env.VITE_API_URL}/auth/user/update/${username}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),

@@ -10,7 +10,7 @@ const Layout = () => {
     const storedUsername = localStorage.getItem("githubUsername");
 
     if (storedUsername) {
-      fetch(`https://devchan.onrender.com/user/me/${storedUsername}`, {
+      fetch(`${import.meta.env.VITE_API_URL}/user/me/${storedUsername}`, {
         method: "GET",
         credentials: "include"
       })
@@ -22,7 +22,7 @@ const Layout = () => {
 
   const handleLogout = async () => {
     try {
-      await fetch("https://devchan.onrender.com/auth/logout", {
+      await fetch(`${import.meta.env.VITE_API_URL}/auth/logout`, {
         method: "GET",
         credentials: "include"
       });
