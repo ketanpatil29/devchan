@@ -2,6 +2,9 @@ import React from 'react';
 import { FaGithub } from "react-icons/fa";
 
 const Login = () => {
+
+  console.log("VITE_API_URL =", import.meta.env.VITE_API_URL);
+
   return (
     <div className="bg-black flex flex-col items-center justify-center h-screen">
       <h1 className="exo-font font-bold absolute top-40 left-135 text-[#F7F4EA] text-[100px] mb-4">DEV</h1>
