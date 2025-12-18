@@ -32,7 +32,6 @@ const Dashboard = () => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // MATCHING
   const [currentMatch, setCurrentMatch] = useState(null);
   const [matchLoading, setMatchLoading] = useState(false);
   const [noMatch, setNoMatch] = useState(false);
@@ -78,7 +77,6 @@ const Dashboard = () => {
 
   const profileCompleted = userData?.profileCompleted === true;
 
-  // FETCH MATCH FUNCTION
   const fetchMatch = () => {
     setMatchLoading(true);
     setNoMatch(false);
@@ -106,86 +104,86 @@ const Dashboard = () => {
   return (
     <section className="bg-black exo-font relative min-h-screen pb-20 px-4 sm:px-6 lg:px-0">
 
-      <div className="grid grid-cols-3">
+      <div className="grid grid-cols-3 max-w-[1500px]">
 
         <div className="bg-zinc-950 border border-zinc-800 pt-10 flex flex-col items-center w-full sm:w-[90%] md:w-[500px] max-w-full h-auto md:h-[550px] rounded-lg mx-auto mt-16 shadow-xl px-">
           <h1 className="text-white">Left side</h1>
         </div>
 
-      {!profileCompleted && (
-        <div className="w-full sm:w-[80%] md:w-[60%] mx-auto flex flex-col items-center mt-10 text-center">
-          <TypingText
-            text={`Welcome, ${username}!\nWe request you to complete your profile so you can find the best matches for you to connect with.`}
-            speed={60}
-          />
-
-          <button
-            onClick={() => navigate("/profile")}
-            className="bg-zinc-900 border border-zinc-800 text-white rounded-md p-3 mt-4 cursor-pointer hover:bg-zinc-800 transition w-full sm:w-auto"
-          >
-            Complete your profile
-          </button>
-        </div>
-      )}
-
-      <div className="bg-zinc-950 border border-zinc-800 pt-10 flex flex-col items-center w-full sm:w-[90%] md:w-[1000px] max-w-full h-auto md:h-[550px] rounded-lg mx-auto mt-16 shadow-xl px-4">
-
-        <button
-          onClick={fetchMatch}
-          className="bg-zinc-900 border border-zinc-800 text-white rounded-md p-3 cursor-pointer hover:bg-zinc-800 transition w-full sm:w-auto"
-        >
-          Find your match
-        </button>
-
-        {matchLoading && (
-          <p className="text-zinc-400 mt-8 text-lg text-center">Searching...</p>
-        )}
-
-        {noMatch && (
-          <p className="text-zinc-400 mt-8 text-lg text-center">
-            No more matches found. Come back later!
-          </p>
-        )}
-
-        {currentMatch && (
-          <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 mt-6 mb-6 w-full sm:w-[80%] text-white flex flex-col items-center">
-
-            <img
-              src={currentMatch.avatar}
-              alt="avatar"
-              className="w-24 h-24 sm:w-32 sm:h-32 rounded-full border border-zinc-700"
+        {!profileCompleted && (
+          <div className="w-full sm:w-[80%] md:w-[60%] mx-auto flex flex-col items-center mt-10 text-center">
+            <TypingText
+              text={`Welcome, ${username}!\nWe request you to complete your profile so you can find the best matches for you to connect with.`}
+              speed={60}
             />
 
-            <h2 className="text-xl sm:text-2xl font-bold mt-4 text-center">{currentMatch.username}</h2>
-
-            <p className="text-zinc-400 text-center mt-2 w-full sm:w-[70%]">
-              {currentMatch.githubBio || "No bio available."}
-            </p>
-
-            <div className="mt-4 flex gap-2 flex-wrap justify-center">
-              {currentMatch.languages?.map((lang) => (
-                <span
-                  key={lang}
-                  className="bg-zinc-800 text-zinc-300 px-3 py-1 rounded-md text-sm"
-                >
-                  {lang}
-                </span>
-              ))}
-            </div>
-
             <button
-              onClick={fetchMatch}
-              className="mt-6 bg-zinc-800 border border-zinc-700 px-4 py-2 rounded-md text-white hover:bg-zinc-700 transition w-full sm:w-auto"
+              onClick={() => navigate("/profile")}
+              className="bg-zinc-900 border border-zinc-800 text-white rounded-md p-3 mt-4 cursor-pointer hover:bg-zinc-800 transition w-full sm:w-auto"
             >
-              Next Match
+              Complete your profile
             </button>
           </div>
         )}
-      </div>
 
-      <div className="bg-zinc-950 border border-zinc-800 pt-10 flex flex-col items-center w-full sm:w-[90%] md:w-[400px] max-w-full h-auto md:h-[550px] rounded-lg mx-auto mt-16 shadow-xl px-">
-        <h1 className="text-white">Friends</h1>
-      </div>
+        <div className="bg-zinc-950 border border-zinc-800 pt-10 flex flex-col items-center w-full sm:w-[90%] md:w-[1000px] max-w-full h-auto md:h-[550px] rounded-lg mx-auto mt-16 shadow-xl px-4">
+
+          <button
+            onClick={fetchMatch}
+            className="bg-zinc-900 border border-zinc-800 text-white rounded-md p-3 cursor-pointer hover:bg-zinc-800 transition w-full sm:w-auto"
+          >
+            Find your match
+          </button>
+
+          {matchLoading && (
+            <p className="text-zinc-400 mt-8 text-lg text-center">Searching...</p>
+          )}
+
+          {noMatch && (
+            <p className="text-zinc-400 mt-8 text-lg text-center">
+              No more matches found. Come back later!
+            </p>
+          )}
+
+          {currentMatch && (
+            <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 mt-6 mb-6 w-full sm:w-[80%] text-white flex flex-col items-center">
+
+              <img
+                src={currentMatch.avatar}
+                alt="avatar"
+                className="w-24 h-24 sm:w-32 sm:h-32 rounded-full border border-zinc-700"
+              />
+
+              <h2 className="text-xl sm:text-2xl font-bold mt-4 text-center">{currentMatch.username}</h2>
+
+              <p className="text-zinc-400 text-center mt-2 w-full sm:w-[70%]">
+                {currentMatch.githubBio || "No bio available."}
+              </p>
+
+              <div className="mt-4 flex gap-2 flex-wrap justify-center">
+                {currentMatch.languages?.map((lang) => (
+                  <span
+                    key={lang}
+                    className="bg-zinc-800 text-zinc-300 px-3 py-1 rounded-md text-sm"
+                  >
+                    {lang}
+                  </span>
+                ))}
+              </div>
+
+              <button
+                onClick={fetchMatch}
+                className="mt-6 bg-zinc-800 border border-zinc-700 px-4 py-2 rounded-md text-white hover:bg-zinc-700 transition w-full sm:w-auto"
+              >
+                Next Match
+              </button>
+            </div>
+          )}
+        </div>
+
+        <div className="bg-zinc-950 border border-zinc-800 pt-10 flex flex-col items-center w-full sm:w-[90%] md:w-[400px] max-w-full h-auto md:h-[550px] rounded-lg mx-auto mt-4 shadow-xl px-">
+          <h1 className="text-white">Friends</h1>
+        </div>
       </div>
     </section>
 
