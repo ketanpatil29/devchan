@@ -70,12 +70,18 @@ passport.deserializeUser((user, done) => done(null, user));
 router.get("/github", passport.authenticate("github", { scope: ["user:email"] }));
 
 router.get(
-    "/github/callback",
-    passport.authenticate("github", { failureRedirect: "/login" }),
-    (req, res) => {
-        const username = req.user.user.username;
-        res.redirect(`${process.env.FRONTEND_URL}/dashboard?token=${req.user.accessToken}&username=${username}`);
-    }
+  "/github/callback",
+  passport.authenticate("github", { failureRedirect: "/login" }),
+  (req, res) => {
+
+    console.log("🚨 FRONTEND_URL USED =", process.env.FRONTEND_URL);
+
+    const username = req.user.user.username;
+
+    res.redirect(
+      `${process.env.FRONTEND_URL}/dashboard?token=${req.user.accessToken}&username=${username}`
+    );
+  }
 );
 
 router.get(
