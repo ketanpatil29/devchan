@@ -9,7 +9,6 @@ const UserSchema = new mongoose.Schema({
   repos: Number,
   githubBio: String,
 
-  // NEW FIELDS
   interests: { type: Array, default: [] },
   lookingFor: { type: Array, default: [] },
   role: { type: String, default: "" },
@@ -17,8 +16,28 @@ const UserSchema = new mongoose.Schema({
   languages: { type: Array, default: [] },
   profileCompleted: { type: Boolean, default: false },
 
-  // ADD STATUS FIELD
-  status: { type: String, default: "Available" }, // <-- add this
+  status: { type: String, default: "Available" },
+
+  friends: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
+
+  friendRequests: [
+    {
+      from: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+      createdAt: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
+
 });
 
 const User = mongoose.model("User", UserSchema);

@@ -36,6 +36,10 @@ const Dashboard = () => {
   const [matchLoading, setMatchLoading] = useState(false);
   const [noMatch, setNoMatch] = useState(false);
 
+  // 🔥 FRIEND SYSTEM
+  const [friendRequests, setFriendRequests] = useState([]);
+  const [sendingRequest, setSendingRequest] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -58,6 +62,7 @@ const Dashboard = () => {
         .then((res) => res.json())
         .then((data) => {
           setUserData(data);
+          setFriendRequests(data.friendRequests || []);
           setLoading(false);
         })
         .catch((err) => {
@@ -101,11 +106,55 @@ const Dashboard = () => {
       });
   };
 
+  // 🔥 SEND FRIEND REQUEST
+  const sendFriendRequest = async () => {
+    if (!currentMatch) return;
+
+    setSendingRequest(true);
+
+    try {
+      await fetch(`${import.meta.env.VITE_API_URL}/user/connect`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          fromUsername: username,
+          toUsername: currentMatch.username,
+        }),
+      });
+    } catch (err) {
+      console.error(err);
+    }
+
+    setSendingRequest(false);
+  };
+
+  // 🔥 ACCEPT FRIEND REQUEST
+  const acceptFriendRequest = async (fromUserId) => {
+    try {
+      await fetch(`${import.meta.env.VITE_API_URL}/user/accept`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          fromUserId,
+          toUserId: userData._id,
+        }),
+      });
+
+      setFriendRequests((prev) =>
+        prev.filter((req) => req.from._id !== fromUserId)
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <section className="bg-black exo-font relative min-h-screen pb-20 px-4 sm:px-6 lg:px-0">
-
       <div className="grid grid-cols-3 lg:grid-cols-[300px_1fr_340px] max-w-full mx-4 gap-8">
 
+        {/* LEFT */}
         <div className="space-y-6 mt-4">
           <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-4">
             <h2 className="text-white font-semibold mb-2">Community</h2>
@@ -115,95 +164,128 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {!profileCompleted && (
-          <div className="w-full sm:w-[80%] md:w-[60%] mx-auto flex flex-col items-center mt-10 text-center">
-            <TypingText
-              text={`Welcome, ${username}!\nWe request you to complete your profile so you can find the best matches for you to connect with.`}
-              speed={60}
-            />
-
-            <button
-              onClick={() => navigate("/profile")}
-              className="bg-zinc-900 border border-zinc-800 text-white rounded-md p-3 mt-4 cursor-pointer hover:bg-zinc-800 transition w-full sm:w-auto"
-            >
-              Complete your profile
-            </button>
-          </div>
-        )}
-
-        <div className="bg-zinc-950 border border-zinc-800 pt-10 flex flex-col items-center w-full sm:w-[90%] md:w-[1000px] max-w-full h-auto md:h-[550px] rounded-lg mx-auto mt-16 shadow-xl px-4">
-
-          <button
-            onClick={fetchMatch}
-            className="bg-zinc-900 border border-zinc-800 text-white rounded-md p-3 cursor-pointer hover:bg-zinc-800 transition w-full sm:w-auto"
-          >
-            Find your match
-          </button>
-
-          {matchLoading && (
-            <p className="text-zinc-400 mt-8 text-lg text-center">Searching...</p>
-          )}
-
-          {noMatch && (
-            <p className="text-zinc-400 mt-8 text-lg text-center">
-              No more matches found. Come back later!
-            </p>
-          )}
-
-          {currentMatch && (
-            <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 mt-6 mb-6 w-full sm:w-[80%] text-white flex flex-col items-center">
-
-              <img
-                src={currentMatch.avatar}
-                alt="avatar"
-                className="w-24 h-24 sm:w-32 sm:h-32 rounded-full border border-zinc-700"
+        {/* CENTER */}
+        <div>
+          {!profileCompleted && (
+            <div className="w-full sm:w-[80%] md:w-[60%] mx-auto flex flex-col items-center mt-10 text-center">
+              <TypingText
+                text={`Welcome, ${username}!\nWe request you to complete your profile so you can find the best matches for you to connect with.`}
+                speed={60}
               />
 
-              <h2 className="text-xl sm:text-2xl font-bold mt-4 text-center">{currentMatch.username}</h2>
-
-              <p className="text-zinc-400 text-center mt-2 w-full sm:w-[70%]">
-                {currentMatch.githubBio || "No bio available."}
-              </p>
-
-              <div className="mt-4 flex gap-2 flex-wrap justify-center">
-                {currentMatch.languages?.map((lang) => (
-                  <span
-                    key={lang}
-                    className="bg-zinc-800 text-zinc-300 px-3 py-1 rounded-md text-sm"
-                  >
-                    {lang}
-                  </span>
-                ))}
-              </div>
-
               <button
-                onClick={fetchMatch}
-                className="mt-6 bg-zinc-800 border border-zinc-700 px-4 py-2 rounded-md text-white hover:bg-zinc-700 transition w-full sm:w-auto"
+                onClick={() => navigate("/profile")}
+                className="bg-zinc-900 border border-zinc-800 text-white rounded-md p-3 mt-4 cursor-pointer hover:bg-zinc-800 transition w-full sm:w-auto"
               >
-                Next Match
+                Complete your profile
               </button>
             </div>
           )}
+
+          <div className="bg-zinc-950 border border-zinc-800 pt-10 flex flex-col items-center w-full sm:w-[90%] md:w-[1000px] max-w-full h-auto md:h-[550px] rounded-lg mx-auto mt-16 shadow-xl px-4">
+
+            <button
+              onClick={fetchMatch}
+              className="bg-zinc-900 border border-zinc-800 text-white rounded-md p-3 cursor-pointer hover:bg-zinc-800 transition w-full sm:w-auto"
+            >
+              Find your match
+            </button>
+
+            {matchLoading && (
+              <p className="text-zinc-400 mt-8 text-lg text-center">Searching...</p>
+            )}
+
+            {noMatch && (
+              <p className="text-zinc-400 mt-8 text-lg text-center">
+                No more matches found. Come back later!
+              </p>
+            )}
+
+            {currentMatch && (
+              <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 mt-6 mb-6 w-full sm:w-[80%] text-white flex flex-col items-center">
+
+                <img
+                  src={currentMatch.avatar}
+                  alt="avatar"
+                  className="w-24 h-24 sm:w-32 sm:h-32 rounded-full border border-zinc-700"
+                />
+
+                <h2 className="text-xl sm:text-2xl font-bold mt-4 text-center">
+                  {currentMatch.username}
+                </h2>
+
+                <p className="text-zinc-400 text-center mt-2 w-full sm:w-[70%]">
+                  {currentMatch.githubBio || "No bio available."}
+                </p>
+
+                <div className="mt-4 flex gap-2 flex-wrap justify-center">
+                  {currentMatch.languages?.map((lang) => (
+                    <span
+                      key={lang}
+                      className="bg-zinc-800 text-zinc-300 px-3 py-1 rounded-md text-sm"
+                    >
+                      {lang}
+                    </span>
+                  ))}
+                </div>
+
+                <button
+                  onClick={fetchMatch}
+                  className="mt-6 bg-zinc-800 border border-zinc-700 px-4 py-2 rounded-md text-white hover:bg-zinc-700 transition w-full sm:w-auto"
+                >
+                  Next Match
+                </button>
+
+                <button
+                  onClick={sendFriendRequest}
+                  disabled={sendingRequest}
+                  className="mt-3 bg-green-600 hover:bg-green-700 px-4 py-2 rounded-md text-white transition w-full sm:w-auto"
+                >
+                  {sendingRequest ? "Sending..." : "Connect 🤝"}
+                </button>
+              </div>
+            )}
+          </div>
         </div>
 
+        {/* RIGHT */}
         <div className="space-y-6 mt-2">
           <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-4 h-[260px] flex flex-col">
-            <h2 className="text-white font-semibold mb-2">Messages</h2>
+            <h2 className="text-white font-semibold mb-2 flex items-center gap-2">
+              Friends
+              {friendRequests.length > 0 && (
+                <span className="w-2 h-2 bg-orange-500 rounded-full"></span>
+              )}
+            </h2>
 
-            <div className="flex-1 overflow-y-auto text-zinc-400 text-sm space-y-2">
-              <p>👤 Ketan: Hey!</p>
-              <p>👤 Riya: Let’s build something 🔥</p>
+            <div className="space-y-2 overflow-y-auto">
+              {friendRequests.length === 0 && (
+                <p className="text-zinc-400 text-sm">No requests</p>
+              )}
+
+              {friendRequests.map((req) => (
+                <div
+                  key={req.from._id}
+                  className="flex justify-between items-center bg-zinc-900 border border-zinc-800 p-2 rounded-md"
+                >
+                  <span className="text-white text-sm">
+                    {req.from.username}
+                  </span>
+
+                  <button
+                    onClick={() => acceptFriendRequest(req.from._id)}
+                    className="bg-blue-600 hover:bg-blue-700 px-2 py-1 rounded text-sm text-white"
+                  >
+                    Accept
+                  </button>
+                </div>
+              ))}
             </div>
-
-            <button className="mt-3 bg-zinc-800 py-2 rounded text-sm hover:bg-zinc-700">
-              Open Chat
-            </button>
           </div>
         </div>
 
       </div>
     </section>
-
   );
 };
 
