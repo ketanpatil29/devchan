@@ -1,47 +1,33 @@
 import express from "express";
 import User from "./user.js";
 
-const router = express.Router();
-
 router.post("/connect", async (req, res) => {
-  try {
-    const { fromUsername, toUsername } = req.body;
+  const { fromUsername, toUsername } = req.body;
 
-    if (fromUsername === toUsername) {
-      return res.status(400).json({ message: "Cannot connect with yourself" });
-    }
+  const fromUser = await User.findOne({ username: fromUsername });
 
-    const fromUser = await User.findOne({ username: fromUsername });
-    const toUser = await User.findOne({ username: toUsername });
+  const toUser = await User.findOne({ username: toUsername });
 
-    if (!fromUser || !toUser) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    // Prevent duplicate request
-    const alreadyRequested = toUser.friendRequests.some(
-      req => req.from.toString() === fromUser._id.toString()
-    );
-
-    if (alreadyRequested) {
-      return res.status(400).json({ message: "Request already sent" });
-    }
-
-    // Prevent connecting again
-    if (toUser.friends.includes(fromUser._id)) {
-      return res.status(400).json({ message: "Already friends" });
-    }
-
-    toUser.friendRequests.push({ from: fromUser._id });
-    await toUser.save();
-
-    res.json({ success: true, message: "Friend request sent" });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
+  if(!fromUser || !toUser)
+  {
+    return res.status(400).json({ message: "User not found..." });
   }
-});
 
+  const alreadySent = toUser.friendRequests.some(
+    req => res.from.toString() === fromUser._id.toString()
+  );
+
+  if(alreadySent)
+  {
+    return res.status(400).json({ message: "Request is already sent." });
+  }
+
+  toUser.friendRequests.push({ from: fromUser._id });
+
+  await toUser.save();
+
+  res.json({ success: true, message: "Request sent" });
+});
 
 router.post("/accept", async (req, res) => {
   try {
