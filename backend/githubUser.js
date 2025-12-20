@@ -7,10 +7,13 @@ const router = express.Router();
 router.get("/me/:username", async (req, res) => {
   try {
     const username = req.params.username;
-    const user = await User.findOne({ username })
-      .populate("friends", "username avatar");
+    let user = await User.findOne({ username }).populate("friends", "username avatar");
 
     if (!user) return res.status(404).json({ message: "User not found" });
+
+    // ✅ REMOVE null friends and duplicates
+    user.friends = user.friends
+      .filter((v, i, a) => v && a.findIndex(f => f._id.toString() === v._id.toString()) === i);
 
     return res.json(user);
   } catch (err) {

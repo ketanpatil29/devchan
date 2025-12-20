@@ -302,7 +302,7 @@ const Dashboard = () => {
             <div>
               {userData.friends && userData.friends.length > 0 ? (
                 userData.friends.map((friend) => {
-                  if (!friend) return null; // <- prevent error
+                  if (!friend) return null; // ✅ skip null friends
                   return (
                     <div
                       key={friend._id}
@@ -328,6 +328,7 @@ const Dashboard = () => {
               ) : (
                 <p className="text-zinc-400 text-sm">No friends yet</p>
               )}
+
 
             </div>
           </div>
