@@ -191,10 +191,10 @@ const Dashboard = () => {
                     <img
                       onClick={() => navigate(`/user/${currentMatch.username}`)}
                       src={currentMatch.avatar}
-                      className="w-24 h-24 rounded-full border border-zinc-700 cusrot-pointer"
+                      className="w-24 h-24 rounded-full border border-zinc-700 cursor-pointer"
                     />
 
-                    <h2 className="text-lg font-semibold mt-3">
+                    <h2 onClick={() => navigate(`/user/${currentMatch.username}`)} className="text-lg font-semibold mt-3 cursor-pointer">
                       {currentMatch.username}
                     </h2>
 
@@ -320,11 +320,12 @@ const Dashboard = () => {
               >
                 <div className="flex gap-2">
                   <img
+                    onClick={() => navigate(`/user/${currentMatch.username}`)}
                     src={friend.avatar}
                     alt="avatar"
                     className="w-8 h-8 rounded-full border border-zinc-800 cursor-pointer"
                   />
-                  <span className="text-white text-sm">{friend.username}</span>
+                  <span onClick={() => navigate(`/user/${currentMatch.username}`)} className="text-white text-sm cursor-pointer">{friend.username}</span>
                 </div>
                 <button
                   onClick={() => navigate(`/chat/${friend.username}`)}
