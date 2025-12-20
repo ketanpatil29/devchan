@@ -12,17 +12,19 @@ router.post("/connect", async (req, res) => {
 
   const toUser = await User.findOne({ username: toUsername });
 
-  if(!fromUser || !toUser)
-  {
+  if (!fromUser || !toUser) {
     return res.status(400).json({ message: "User not found..." });
   }
 
+  if (toUser.friends.includes(fromUser._id)) {
+    return res.status(400).json({ message: "You are already friends." });
+  }
+
   const alreadySent = toUser.friendRequests.some(
-    req => res.from.toString() === fromUser._id.toString()
+    req => req.from.toString() === fromUser._id.toString()
   );
 
-  if(alreadySent)
-  {
+  if (alreadySent) {
     return res.status(400).json({ message: "Request is already sent." });
   }
 
@@ -49,9 +51,14 @@ router.post("/accept", async (req, res) => {
       req => req.from.toString() !== fromUserId
     );
 
-    // Add each other as friends
-    toUser.friends.push(fromUser._id);
-    fromUser.friends.push(toUser._id);
+    // Add each other as friends if not already
+    if (!toUser.friends.includes(fromUser._id)) {
+      toUser.friends.push(fromUser._id);
+    }
+
+    if (!fromUser.friends.includes(toUser._id)) {
+      fromUser.friends.push(toUser._id);
+    }
 
     await toUser.save();
     await fromUser.save();

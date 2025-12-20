@@ -164,6 +164,8 @@ const Dashboard = () => {
     }
   };
 
+  const isFriend = userData.friends?.includes(currentMatch._id);
+
   return (
     <section className="bg-black exo-font relative min-h-screen pb-20 px-4 sm:px-6 lg:px-0">
       <div className="grid grid-cols-3 lg:grid-cols-[300px_1fr_340px] max-w-full mx-4 gap-8">
@@ -252,11 +254,12 @@ const Dashboard = () => {
 
                 <button
                   onClick={sendFriendRequest}
-                  disabled={sendingRequest || requestSent}
+                  disabled={sendingRequest || requestSent || isFriend}
                   className="mt-3 bg-green-600 hover:bg-green-700 px-4 py-2 rounded-md text-white transition w-full sm:w-auto"
                 >
-                  {requestSent ? "Request Sent" : "Connect 🤝"}
+                  {isFriend ? "Already Friends" : requestSent ? "Request Sent" : "Connect 🤝"}
                 </button>
+
               </div>
             )}
           </div>
