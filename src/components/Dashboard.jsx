@@ -164,8 +164,6 @@ const Dashboard = () => {
     }
   };
 
-  const isFriend = userData.friends?.includes(currentMatch._id);
-
   return (
     <section className="bg-black exo-font relative min-h-screen pb-20 px-4 sm:px-6 lg:px-0">
       <div className="grid grid-cols-3 lg:grid-cols-[300px_1fr_340px] max-w-full mx-4 gap-8">
@@ -254,12 +252,11 @@ const Dashboard = () => {
 
                 <button
                   onClick={sendFriendRequest}
-                  disabled={sendingRequest || requestSent || isFriend}
+                  disabled={sendingRequest || requestSent}
                   className="mt-3 bg-green-600 hover:bg-green-700 px-4 py-2 rounded-md text-white transition w-full sm:w-auto"
                 >
-                  {isFriend ? "Already Friends" : requestSent ? "Request Sent" : "Connect 🤝"}
+                  {requestSent ? "Request Sent" : "Connect 🤝"}
                 </button>
-
               </div>
             )}
           </div>
@@ -280,46 +277,51 @@ const Dashboard = () => {
                 <p className="text-zinc-400 text-sm">No requests</p>
               )}
 
-              {friendRequests.map((req) => {
-                if (!req.from) return null; // skip nulls
-                return (
-                  <div key={req.from._id} className="flex justify-between items-center bg-zinc-900 border border-zinc-800 p-2 rounded-md">
-                    <span className="text-white text-sm">{req.from.username || "Unknown"}</span>
-                    <button
-                      onClick={() => acceptFriendRequest(req.from._id)}
-                      className="bg-blue-600 hover:bg-blue-700 px-2 py-1 rounded text-sm text-white"
-                    >
-                      Accept
-                    </button>
-                  </div>
-                );
-              })}
+              {friendRequests.map((req) => (
+                <div
+                  key={req.from._id}
+                  className="flex justify-between items-center bg-zinc-900 border border-zinc-800 p-2 rounded-md"
+                >
+                  <span className="text-white text-sm">
+                    {req.from.username}
+                  </span>
 
-
+                  <button
+                    onClick={() => acceptFriendRequest(req.from._id)}
+                    className="bg-blue-600 hover:bg-blue-700 px-2 py-1 rounded text-sm text-white"
+                  >
+                    Accept
+                  </button>
+                </div>
+              ))}
             </div>
 
             <div>
-              {userData.friends?.map((friend) => {
-                if (!friend || !friend._id) return null;
-                return (
-                  <div key={friend._id} className="flex justify-between items-center bg-zinc-900 border border-zinc-800 p-2 rounded-md">
-                    <div className="flex items-center gap-2">
-                      {friend.avatar && <img src={friend.avatar} alt={friend.username} className="w-6 h-6 rounded-full border border-zinc-700" />}
-                      <span className="text-white text-sm">{friend.username}</span>
-                    </div>
-                    <button
-                      onClick={() => navigate(`/chat/${friend.username}`)}
-                      className="bg-green-600 hover:bg-green-700 px-2 py-1 rounded text-sm text-white"
-                    >
-                      Chat
-                    </button>
-                  </div>
-                );
-              })}
-
-
-
-
+              {userData.friends && userData.friends.length > 0 ? (
+        userData.friends.map((friend) => (
+          <div
+            key={friend._id}
+            className="flex justify-between items-center bg-zinc-900 border border-zinc-800 p-2 rounded-md"
+          >
+            <div className="flex items-center gap-2">
+              <img
+                src={friend.avatar}
+                alt={friend.username}
+                className="w-6 h-6 rounded-full border border-zinc-700"
+              />
+              <span className="text-white text-sm">{friend.username}</span>
+            </div>
+            <button
+              onClick={() => navigate(`/chat/${friend.username}`)}
+              className="bg-green-600 hover:bg-green-700 px-2 py-1 rounded text-sm text-white"
+            >
+              Chat
+            </button>
+          </div>
+        ))
+      ) : (
+        <p className="text-zinc-400 text-sm">No friends yet</p>
+      )}
             </div>
           </div>
         </div>
