@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 
+import sendButton from "../assets/send.png";
+
 const TypingText = ({ text, speed = 120 }) => {
   const [displayMessage, setDisplayMessage] = useState("");
 
@@ -256,18 +258,25 @@ const Dashboard = () => {
                 key={friend._id}
                 className="flex justify-between items-center bg-zinc-900 p-2 rounded-md mt-2"
               >
-                <img
-                  src={friend.avatar}
-                  alt="avatar"
-                  className="w-8 h-8 rounded-full border border-zinc-800 ml-2 cursor-pointer"
-                />
-                <span className="text-white text-sm">{friend.username}</span>
+                <div className="gap-2">
+                  <img
+                    src={friend.avatar}
+                    alt="avatar"
+                    className="w-8 h-8 rounded-full border border-zinc-800 cursor-pointer"
+                  />
+                  <span className="text-white text-sm">{friend.username}</span>
+                </div>
                 <button
                   onClick={() => navigate(`/chat/${friend.username}`)}
-                  className="bg-green-600 px-2 py-1 rounded text-sm"
+                  className="p-2 rounded-md bg-transparent hover:bg-zinc-800 transition"
                 >
-                  Chat
+                  <img
+                    src={sendButton}
+                    alt="Chat"
+                    className="w-5 h-5 opacity-80 hover:opacity-100"
+                  />
                 </button>
+
               </div>
             ))}
           </div>
