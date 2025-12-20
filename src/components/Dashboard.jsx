@@ -256,6 +256,11 @@ const Dashboard = () => {
                 key={friend._id}
                 className="flex justify-between items-center bg-zinc-900 p-2 rounded-md mt-2"
               >
+                <img
+                  src={friend.avatar}
+                  alt="avatar"
+                  className="w-8 h-8 rounded-full border border-zinc-800 ml-2 cursor-pointer"
+                />
                 <span className="text-white text-sm">{friend.username}</span>
                 <button
                   onClick={() => navigate(`/chat/${friend.username}`)}
