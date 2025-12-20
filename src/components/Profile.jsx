@@ -6,6 +6,7 @@ const Profile = () => {
   const [skills, setSkills] = useState([]);
   const [interests, setInterests] = useState([]);
   const [lookingFor, setLookingFor] = useState([]);
+  const [ about, setAbout ] = useState("");
   const [role, setRole] = useState("");
   const [experience, setExperience] = useState(0);
 
@@ -16,8 +17,8 @@ const Profile = () => {
     const username = localStorage.getItem("githubUsername");
 
     fetch(`${import.meta.env.VITE_API_URL}/user/me/${username}`, {
-        method: "GET",
-        credentials: "include"
+      method: "GET",
+      credentials: "include"
     })
       .then(res => res.json())
       .then(data => {
@@ -27,6 +28,7 @@ const Profile = () => {
         setSkills(data.languages || []);
         setInterests(data.interests || []);
         setLookingFor(data.lookingFor || []);
+        setAbout(data.about || "");
         setRole(data.role || "");
         setExperience(data.experience || 0);
       });
@@ -45,6 +47,7 @@ const Profile = () => {
       languages: skills,
       interests,
       lookingFor,
+      about,
       role,
       experience,
     };
@@ -65,11 +68,8 @@ const Profile = () => {
 
   return (
     <section className="bg-black min-h-screen py-10">
-      <div className="bg-zinc-950 border border-zinc-800 pt-10 pb-10 
-                      flex flex-col items-center w-full max-w-[900px] 
-                      rounded-lg mx-auto">
+      <div className="bg-zinc-950 border border-zinc-800 pt-10 pb-10 flex flex-col items-center w-full max-w-[900px] rounded-lg mx-auto">
 
-        {/* GitHub avatar + bio */}
         <img
           src={userData.avatar}
           alt="avatar"
@@ -89,8 +89,16 @@ const Profile = () => {
         {/* FORM START */}
         <div className="w-[80%] mt-10 text-white">
 
+          <label className="block text-sm">About</label>
+          <textarea
+            className="w-full bg-zinc-900 border border-zinc-700 p-2 rounded mt-1"
+            placeholder="Software devloper from India. Looking for friends to contribute on my projects"
+            value={about}
+            onChange={(e) => setAbout(e.target.value)}
+          />
+
           {/* ROLE */}
-          <label className="block text-sm">Your Role</label>
+          <label className="block mt-4 text-sm">Your Role</label>
           <input
             className="w-full bg-zinc-900 border border-zinc-700 p-2 rounded mt-1"
             placeholder="Full-stack Developer, Backend, ML Engineer..."
@@ -127,11 +135,10 @@ const Profile = () => {
               <button
                 key={i}
                 onClick={() => toggleArrayItem(interests, setInterests, i)}
-                className={`px-3 py-1 rounded-full border ${
-                  interests.includes(i)
+                className={`px-3 py-1 rounded-full border ${interests.includes(i)
                     ? "bg-green-600 border-green-600"
                     : "bg-zinc-900 border-zinc-700"
-                }`}
+                  }`}
               >
                 {i}
               </button>
@@ -145,11 +152,10 @@ const Profile = () => {
               <button
                 key={i}
                 onClick={() => toggleArrayItem(lookingFor, setLookingFor, i)}
-                className={`px-3 py-1 rounded-full border ${
-                  lookingFor.includes(i)
+                className={`px-3 py-1 rounded-full border ${lookingFor.includes(i)
                     ? "bg-blue-600 border-blue-600"
                     : "bg-zinc-900 border-zinc-700"
-                }`}
+                  }`}
               >
                 {i}
               </button>

@@ -183,59 +183,106 @@ const Dashboard = () => {
             )}
 
             {currentMatch && (
-              <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 sm:p-6 mt-6 w-full sm:w-[90%] text-white flex flex-col items-center">
-                <img
-                  src={currentMatch.avatar}
-                  className="w-20 h-20 sm:w-28 sm:h-28 rounded-full border"
-                />
+              <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 mt-6 w-full max-w-3xl text-white">
 
-                <h2 className="text-lg sm:text-xl md:text-2xl font-bold mt-4">
-                  {currentMatch.username}
-                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-4">
 
-                <p className="text-zinc-400 text-center mt-2">
-                  {currentMatch.githubBio || "No bio available"}
-                </p>
+                  <div className="flex flex-col items-center text-center">
+                    <img
+                      src={currentMatch.avatar}
+                      className="w-24 h-24 rounded-full border border-zinc-700"
+                    />
 
-                <div className="flex gap-2 flex-wrap justify-center mt-4">
-                  {currentMatch.languages?.map((lang) => (
-                    <span
-                      key={lang}
-                      className="bg-zinc-800 px-3 py-1 rounded-md text-sm"
-                    >
-                      {lang}
-                    </span>
-                  ))}
+                    <h2 className="text-lg font-semibold mt-3">
+                      {currentMatch.username}
+                    </h2>
+
+                    <p className="text-zinc-400 text-sm mt-1 line-clamp-2">
+                      {currentMatch.githubBio || "No bio available"}
+                    </p>
+
+                    <div className="flex flex-wrap gap-1 mt-3 justify-center">
+                      {currentMatch.languages?.slice(0, 4).map((lang) => (
+                        <span
+                          key={lang}
+                          className="bg-zinc-800 px-2 py-0.5 rounded-full text-xs"
+                        >
+                          {lang}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="flex gap-2 mt-4 w-full">
+                      <button
+                        onClick={fetchMatch}
+                        className="flex-1 bg-zinc-800 hover:bg-zinc-700 px-3 py-1.5 rounded-md text-sm"
+                      >
+                        Next
+                      </button>
+
+                      {!currentMatch.isFriend && !currentMatch.requestSent && (
+                        <button
+                          onClick={sendFriendRequest}
+                          disabled={sendingRequest}
+                          className="flex-1 bg-green-600 hover:bg-green-500 px-3 py-1.5 rounded-md text-sm"
+                        >
+                          {sendingRequest ? "..." : "Connect"}
+                        </button>
+                      )}
+                    </div>
+
+                    {currentMatch.isFriend && (
+                      <p className="mt-2 text-xs text-green-400">
+                        ✔ Already your friend
+                      </p>
+                    )}
+
+                    {currentMatch.requestSent && (
+                      <p className="mt-2 text-xs text-yellow-400">
+                        ⏳ Request sent
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="bg-zinc-950 border border-zinc-800 rounded-lg p-3 text-sm space-y-2">
+                    <p>
+                      <span className="text-zinc-400">Role:</span>{" "}
+                      {currentMatch.role || "—"}
+                    </p>
+
+                    <p>
+                      <span className="text-zinc-400">Experience:</span>{" "}
+                      {currentMatch.experience || 0} yrs
+                    </p>
+
+                    <p className="text-zinc-400">About</p>
+                    <p className="text-zinc-300 text-sm leading-snug">
+                      {currentMatch.about || "No about info provided."}
+                    </p>
+
+                    <div>
+                      <p className="text-zinc-400 mb-1">Interests</p>
+                      <div className="flex flex-wrap gap-1">
+                        {currentMatch.interests?.length ? (
+                          currentMatch.interests.map((i) => (
+                            <span
+                              key={i}
+                              className="bg-zinc-800 px-2 py-0.5 rounded-full text-xs"
+                            >
+                              {i}
+                            </span>
+                          ))
+                        ) : (
+                          <span className="text-zinc-500 text-xs">—</span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
-
-                <button
-                  onClick={fetchMatch}
-                  className="mt-6 bg-zinc-800 px-4 py-2 rounded-md w-full sm:w-auto"
-                >
-                  Next Match
-                </button>
-
-                {/* CONNECT / STATUS */}
-                {currentMatch.isFriend ? (
-                  <p className="mt-3 text-zinc-400 text-sm">
-                    ✅ Already your friend
-                  </p>
-                ) : currentMatch.requestSent ? (
-                  <p className="mt-3 text-zinc-400 text-sm">
-                    ⏳ Request already sent, wait for response
-                  </p>
-                ) : (
-                  <button
-                    onClick={sendFriendRequest}
-                    disabled={sendingRequest}
-                    className="mt-3 bg-green-600 px-4 py-2 rounded-md w-full sm:w-auto"
-                  >
-                    {sendingRequest ? "Sending..." : "Connect 🤝"}
-                  </button>
-                )}
-
               </div>
             )}
+
           </div>
         </div>
 

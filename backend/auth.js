@@ -113,6 +113,7 @@ router.patch("/user/update/:username", async (req, res) => {
       {
         interests: req.body.interests,
         lookingFor: req.body.lookingFor,
+        about: req.body.about,
         role: req.body.role,
         experience: req.body.experience,
         languages: req.body.languages,

@@ -11,6 +11,7 @@ const UserSchema = new mongoose.Schema({
 
   interests: { type: Array, default: [] },
   lookingFor: { type: Array, default: [] },
+  about: { type: String, default: "" },
   role: { type: String, default: "" },
   experience: { type: Number, default: 0 },
   languages: { type: Array, default: [] },

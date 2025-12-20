@@ -47,7 +47,7 @@ router.get("/match/:username", async (req, res) => {
         { languages: { $in: user.languages.length ? user.languages : [""] } },
         { interests: { $in: user.interests.length ? user.interests : [""] } }
       ]
-    }).select("username avatar githubBio languages interests friendRequests");
+    });
 
     if (!matches.length) {
       return res.json({ noMoreMatches: true });
@@ -74,6 +74,9 @@ router.get("/match/:username", async (req, res) => {
       avatar: match.avatar,
       githubBio: match.githubBio,
       languages: match.languages,
+      about: match.about,
+      role: match.role,
+      experience: match.experience,
       interests: match.interests,
       isFriend,
       requestSent
