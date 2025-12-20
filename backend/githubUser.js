@@ -17,7 +17,12 @@ router.get("/me/:username", async (req, res) => {
     user.friends = user.friends
       .filter((v, i, a) => v && a.findIndex(f => f._id.toString() === v._id.toString()) === i);
 
+    // ✅ REMOVE null friendRequests
+    user.friendRequests = user.friendRequests
+      .filter(req => req.from != null);
+
     return res.json(user);
+
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
