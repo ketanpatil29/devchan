@@ -39,6 +39,7 @@ const Dashboard = () => {
   // 🔥 FRIEND SYSTEM
   const [friendRequests, setFriendRequests] = useState([]);
   const [sendingRequest, setSendingRequest] = useState(false);
+  const [requestSent, setRequestSent] = useState(false);
 
   const navigate = useNavigate();
 
@@ -113,7 +114,7 @@ const Dashboard = () => {
     setSendingRequest(true);
 
     try {
-      await fetch(`${import.meta.env.VITE_API_URL}/user/connect`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/user/connect`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -122,11 +123,21 @@ const Dashboard = () => {
           toUsername: currentMatch.username,
         }),
       });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.message);
+        return;
+      }
+
+      alert("Friend request sent 🤝");
     } catch (err) {
       console.error(err);
+    } finally {
+      setRequestSent(true);
+      setSendingRequest(false);
     }
-
-    setSendingRequest(false);
   };
 
   // 🔥 ACCEPT FRIEND REQUEST
@@ -143,8 +154,11 @@ const Dashboard = () => {
       });
 
       setFriendRequests((prev) =>
-        prev.filter((req) => req.from._id !== fromUserId)
+        prev.filter((req) =>
+          (req.from._id || req.from).toString() !== fromUserId
+        )
       );
+
     } catch (err) {
       console.error(err);
     }
@@ -238,10 +252,10 @@ const Dashboard = () => {
 
                 <button
                   onClick={sendFriendRequest}
-                  disabled={sendingRequest}
+                  disabled={sendingRequest || requestSent}
                   className="mt-3 bg-green-600 hover:bg-green-700 px-4 py-2 rounded-md text-white transition w-full sm:w-auto"
                 >
-                  {sendingRequest ? "Sending..." : "Connect 🤝"}
+                  {requestSent ? "Request Sent" : "Connect 🤝"}
                 </button>
               </div>
             )}
