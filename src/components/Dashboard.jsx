@@ -189,8 +189,9 @@ const Dashboard = () => {
 
                   <div className="flex flex-col items-center text-center">
                     <img
+                      onClick={() => navigate(`/user/${currentMatch.username}`)}
                       src={currentMatch.avatar}
-                      className="w-24 h-24 rounded-full border border-zinc-700"
+                      className="w-24 h-24 rounded-full border border-zinc-700 cusrot-pointer"
                     />
 
                     <h2 className="text-lg font-semibold mt-3">
