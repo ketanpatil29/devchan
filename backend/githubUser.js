@@ -7,7 +7,9 @@ const router = express.Router();
 router.get("/me/:username", async (req, res) => {
   try {
     const username = req.params.username;
-    let user = await User.findOne({ username }).populate("friends", "username avatar");
+    let user = await User.findOne({ username })
+      .populate("friends", "username avatar")
+      .populate("friendRequests.from", "username avatar");
 
     if (!user) return res.status(404).json({ message: "User not found" });
 
