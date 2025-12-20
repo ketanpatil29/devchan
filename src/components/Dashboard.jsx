@@ -301,30 +301,34 @@ const Dashboard = () => {
 
             <div>
               {userData.friends && userData.friends.length > 0 ? (
-                userData.friends.map((friend) => (
-                  <div
-                    key={friend._id}
-                    className="flex justify-between items-center bg-zinc-900 border border-zinc-800 p-2 rounded-md"
-                  >
-                    <div className="flex items-center gap-2">
-                      <img
-                        src={friend.avatar}
-                        alt={friend.username}
-                        className="w-6 h-6 rounded-full border border-zinc-700"
-                      />
-                      <span className="text-white text-sm">{friend.username}</span>
-                    </div>
-                    <button
-                      onClick={() => navigate(`/chat/${friend.username}`)}
-                      className="bg-green-600 hover:bg-green-700 px-2 py-1 rounded text-sm text-white"
+                userData.friends.map((friend) => {
+                  if (!friend) return null; // <- prevent error
+                  return (
+                    <div
+                      key={friend._id}
+                      className="flex justify-between items-center bg-zinc-900 border border-zinc-800 p-2 rounded-md"
                     >
-                      Chat
-                    </button>
-                  </div>
-                ))
+                      <div className="flex items-center gap-2">
+                        <img
+                          src={friend.avatar}
+                          alt={friend.username}
+                          className="w-6 h-6 rounded-full border border-zinc-700"
+                        />
+                        <span className="text-white text-sm">{friend.username}</span>
+                      </div>
+                      <button
+                        onClick={() => navigate(`/chat/${friend.username}`)}
+                        className="bg-green-600 hover:bg-green-700 px-2 py-1 rounded text-sm text-white"
+                      >
+                        Chat
+                      </button>
+                    </div>
+                  );
+                })
               ) : (
                 <p className="text-zinc-400 text-sm">No friends yet</p>
               )}
+
             </div>
           </div>
         </div>
