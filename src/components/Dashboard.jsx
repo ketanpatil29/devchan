@@ -215,13 +215,25 @@ const Dashboard = () => {
                   Next Match
                 </button>
 
-                <button
-                  onClick={sendFriendRequest}
-                  disabled={sendingRequest || requestSent}
-                  className="mt-3 bg-green-600 px-4 py-2 rounded-md w-full sm:w-auto"
-                >
-                  {requestSent ? "Request Sent" : "Connect 🤝"}
-                </button>
+                {/* CONNECT / STATUS */}
+                {currentMatch.isFriend ? (
+                  <p className="mt-3 text-zinc-400 text-sm">
+                    ✅ Already your friend
+                  </p>
+                ) : currentMatch.requestSent ? (
+                  <p className="mt-3 text-zinc-400 text-sm">
+                    ⏳ Request already sent, wait for response
+                  </p>
+                ) : (
+                  <button
+                    onClick={sendFriendRequest}
+                    disabled={sendingRequest}
+                    className="mt-3 bg-green-600 px-4 py-2 rounded-md w-full sm:w-auto"
+                  >
+                    {sendingRequest ? "Sending..." : "Connect 🤝"}
+                  </button>
+                )}
+
               </div>
             )}
           </div>
@@ -258,7 +270,7 @@ const Dashboard = () => {
                 key={friend._id}
                 className="flex justify-between items-center bg-zinc-900 p-2 rounded-md mt-2"
               >
-                <div className="gap-2">
+                <div className="flex gap-2">
                   <img
                     src={friend.avatar}
                     alt="avatar"

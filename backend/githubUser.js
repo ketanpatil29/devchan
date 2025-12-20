@@ -34,7 +34,9 @@ router.get("/match/:username", async (req, res) => {
   try {
     const user = await User.findOne({ username });
 
-    if (!user) return res.status(404).json({ message: "User not found" });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
     const matches = await User.find({
       username: { $ne: username },
@@ -45,20 +47,43 @@ router.get("/match/:username", async (req, res) => {
         { languages: { $in: user.languages.length ? user.languages : [""] } },
         { interests: { $in: user.interests.length ? user.interests : [""] } }
       ]
-    });
+    }).select("username avatar githubBio languages interests friendRequests");
 
     if (!matches.length) {
       return res.json({ noMoreMatches: true });
     }
 
-    // Pick a random match to return
+    // ✅ PICK RANDOM MATCH
     const randomIndex = Math.floor(Math.random() * matches.length);
-    res.json(matches[randomIndex]);
+    const match = matches[randomIndex];
+
+    // ✅ CHECK IF ALREADY FRIENDS
+    const isFriend = user.friends.some(
+      id => id.toString() === match._id.toString()
+    );
+
+    // ✅ CHECK IF REQUEST ALREADY SENT
+    const requestSent = match.friendRequests.some(
+      req => req.from.toString() === user._id.toString()
+    );
+
+    // ✅ SEND SINGLE RESPONSE
+    return res.json({
+      _id: match._id,
+      username: match.username,
+      avatar: match.avatar,
+      githubBio: match.githubBio,
+      languages: match.languages,
+      interests: match.interests,
+      isFriend,
+      requestSent
+    });
 
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: "Match fetch failed" });
+    console.error(error);
+    return res.status(500).json({ message: "Match fetch failed" });
   }
 });
+
 
 export default router;
