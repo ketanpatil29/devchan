@@ -280,44 +280,36 @@ const Dashboard = () => {
                 <p className="text-zinc-400 text-sm">No requests</p>
               )}
 
-              {friendRequests.map((req) => (
-                <div
-                  key={req.from._id}
-                  className="flex justify-between items-center bg-zinc-900 border border-zinc-800 p-2 rounded-md"
-                >
-                  <span className="text-white text-sm">
-                    {req.from.username}
-                  </span>
+              {friendRequests.map((req) => {
+                const fromUser = req.from?._id ? req.from : { _id: req.from, username: "Unknown" };
+                return (
+                  <div key={fromUser._id} className="flex justify-between items-center bg-zinc-900 border border-zinc-800 p-2 rounded-md">
+                    <span className="text-white text-sm">{fromUser.username}</span>
+                    <button
+                      onClick={() => acceptFriendRequest(fromUser._id)}
+                      className="bg-blue-600 hover:bg-blue-700 px-2 py-1 rounded text-sm text-white"
+                    >
+                      Accept
+                    </button>
+                  </div>
+                );
+              })}
 
-                  <button
-                    onClick={() => acceptFriendRequest(req.from._id)}
-                    className="bg-blue-600 hover:bg-blue-700 px-2 py-1 rounded text-sm text-white"
-                  >
-                    Accept
-                  </button>
-                </div>
-              ))}
             </div>
 
             <div>
               {userData.friends && userData.friends.length > 0 ? (
                 userData.friends.map((friend) => {
-                  if (!friend) return null; // ✅ skip null friends
+                  if (!friend) return null;
+                  const f = friend._id ? friend : { _id: friend, username: "Unknown", avatar: "" };
                   return (
-                    <div
-                      key={friend._id}
-                      className="flex justify-between items-center bg-zinc-900 border border-zinc-800 p-2 rounded-md"
-                    >
+                    <div key={f._id} className="flex justify-between items-center bg-zinc-900 border border-zinc-800 p-2 rounded-md">
                       <div className="flex items-center gap-2">
-                        <img
-                          src={friend.avatar}
-                          alt={friend.username}
-                          className="w-6 h-6 rounded-full border border-zinc-700"
-                        />
-                        <span className="text-white text-sm">{friend.username}</span>
+                        {f.avatar && <img src={f.avatar} alt={f.username} className="w-6 h-6 rounded-full border border-zinc-700" />}
+                        <span className="text-white text-sm">{f.username}</span>
                       </div>
                       <button
-                        onClick={() => navigate(`/chat/${friend.username}`)}
+                        onClick={() => navigate(`/chat/${f.username}`)}
                         className="bg-green-600 hover:bg-green-700 px-2 py-1 rounded text-sm text-white"
                       >
                         Chat
@@ -328,6 +320,7 @@ const Dashboard = () => {
               ) : (
                 <p className="text-zinc-400 text-sm">No friends yet</p>
               )}
+
 
 
             </div>
