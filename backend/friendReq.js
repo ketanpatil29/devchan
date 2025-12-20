@@ -1,7 +1,11 @@
 import express from "express";
 import User from "./user.js";
 
+const router = express.Router();
+
 router.post("/connect", async (req, res) => {
+  console.log("CONNECT BODY:", req.body);
+
   const { fromUsername, toUsername } = req.body;
 
   const fromUser = await User.findOne({ username: fromUsername });
