@@ -166,7 +166,7 @@ const Dashboard = () => {
             </div>
           )}
 
-          <div className="bg-zinc-950 border border-zinc-800 mt-16 rounded-lg p-6 flex flex-col items-center w-full sm:w-[95%] md:w-[90%] lg:w-[1000px] mx-auto">
+          <div className="mt-16 rounded-lg p-6 flex flex-col items-center w-full sm:w-[95%] md:w-[90%] lg:w-[1000px] mx-auto">
             <button
               onClick={fetchMatch}
               className="bg-zinc-900 border border-zinc-800 text-white rounded-md p-3 w-full sm:w-auto"
