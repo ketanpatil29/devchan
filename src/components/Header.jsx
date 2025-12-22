@@ -1,21 +1,23 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+import devchanLogo from "../assets/devchanlogo.png";
 import notificationIcon from "../assets/notification.png";
 
 const Header = ({ userData, openProfileMenu, setOpenProfileMenu, handleLogout }) => {
   const navigate = useNavigate();
 
   return (
-    <header className="bg-black shadow shadow-zinc-800 fixed top-0 left-0 w-full h-16 flex items-center px-6 z-50">
+    <header className="bg-black shadow shadow-zinc-800 fixed top-0 left-0 w-full h-14 flex items-center px-6 z-50">
 
-      <p className="text-white text-xl">DEVCHAN</p>
+      <img
+        href={`${import.meta.env.VITE_API_URL}/auth/github`}
+        src={devchanLogo}
+        alt="Logo"
+        className="w-30 h-8 cursor-pointer"
+      />
 
       <div className="flex items-center ml-auto">
-
-        <button className="w-10 h-10 rounded-full border border-zinc-800 ml-2">
-          <img src={notificationIcon} alt="notifications" className="w-6 h-6 object-contain" />
-        </button>
 
         {userData && (
           <button

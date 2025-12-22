@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 
 import sendButton from "../assets/send.png";
+import heartButton from "../assets/heart.png";
+import cancelButton from "../assets/close.png";
+import chatButton from "../assets/text-bubble.png";
 
 const TypingText = ({ text, speed = 120 }) => {
   const [displayMessage, setDisplayMessage] = useState("");
@@ -137,19 +140,8 @@ const Dashboard = () => {
 
   return (
     <section className="bg-black min-h-screen px-4 pb-24">
-      <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr_340px] gap-6 max-w-full mx-auto">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6 max-w-full mx-auto">
 
-        {/* LEFT (hidden on mobile) */}
-        <div className="hidden lg:block mt-6">
-          <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-4">
-            <h2 className="text-white font-semibold mb-2">Community</h2>
-            <p className="text-zinc-400 text-sm">
-              Join dev discussions, tips, and help.
-            </p>
-          </div>
-        </div>
-
-        {/* CENTER */}
         <div>
           {!profileCompleted && (
             <div className="flex flex-col items-center mt-10 text-center">
@@ -169,7 +161,7 @@ const Dashboard = () => {
           <div className="mt-16 rounded-lg p-6 flex flex-col items-center w-full sm:w-[95%] md:w-[90%] lg:w-[1000px] mx-auto">
             <button
               onClick={fetchMatch}
-              className="bg-zinc-900 border border-zinc-800 text-white rounded-md p-3 w-full sm:w-auto"
+              className="bg-zinc-900 border border-zinc-800 text-white rounded-md p-3 w-full sm:w-auto cursor-pointer"
             >
               Find your match
             </button>
@@ -185,66 +177,73 @@ const Dashboard = () => {
             {currentMatch && (
               <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 mt-6 w-full max-w-3xl text-white">
 
-                <div className="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-4">
 
-                  <div className="flex flex-col items-center text-center">
-                    <img
-                      onClick={() => navigate(`/user/${currentMatch.username}`)}
-                      src={currentMatch.avatar}
-                      className="w-24 h-24 rounded-full border border-zinc-700 cursor-pointer"
-                    />
+                <div className="flex flex-col items-center text-center">
+                  <img
+                    onClick={() => navigate(`/user/${currentMatch.username}`)}
+                    src={currentMatch.avatar}
+                    className="w-24 h-24 rounded-full border border-zinc-700 cursor-pointer"
+                  />
 
-                    <h2 onClick={() => navigate(`/user/${currentMatch.username}`)} className="text-lg font-semibold mt-3 cursor-pointer">
-                      {currentMatch.username}
-                    </h2>
+                  <h2 onClick={() => navigate(`/user/${currentMatch.username}`)} className="text-lg font-semibold mt-3 cursor-pointer">
+                    {currentMatch.username}
+                  </h2>
 
-                    <p className="text-zinc-400 text-sm mt-1 line-clamp-2">
-                      {currentMatch.githubBio || "No bio available"}
-                    </p>
+                  <p className="text-zinc-400 text-sm mt-1 line-clamp-2">
+                    {currentMatch.githubBio || "No bio available"}
+                  </p>
 
-                    <div className="flex flex-wrap gap-1 mt-3 justify-center">
-                      {currentMatch.languages?.slice(0, 4).map((lang) => (
-                        <span
-                          key={lang}
-                          className="bg-zinc-800 px-2 py-0.5 rounded-full text-xs"
-                        >
-                          {lang}
-                        </span>
-                      ))}
-                    </div>
-
-                    <div className="flex gap-2 mt-4 w-full">
-                      <button
-                        onClick={fetchMatch}
-                        className="flex-1 bg-zinc-800 hover:bg-zinc-700 px-3 py-1.5 rounded-md text-sm"
+                  <div className="flex flex-wrap gap-1 mt-3 justify-center">
+                    {currentMatch.languages?.slice(0, 4).map((lang) => (
+                      <span
+                        key={lang}
+                        className="bg-zinc-800 px-2 py-0.5 rounded-full text-xs"
                       >
-                        Next
+                        {lang}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="flex flex-col gap-2 mt-4 w-full">
+                    <button
+                      onClick={fetchMatch}
+                      className="flex-1 bg-zinc-800 hover:bg-zinc-700 px-3 py-1.5 rounded-md text-sm cursor-pointer"
+                    >
+                      Next
+                    </button>
+
+                    <button
+                      onClick={fetchMatch}
+                      className="flex-1 bg-zinc-800 hover:bg-zinc-700 px-3 py-1.5 rounded-md text-sm cursor-pointer"
+                    >
+                      Message
+                    </button>
+
+                    {!currentMatch.isFriend && !currentMatch.requestSent && (
+                      <button
+                        onClick={sendFriendRequest}
+                        disabled={sendingRequest}
+                        className="flex-1 bg-green-600 hover:bg-green-500 px-3 py-1.5 rounded-md text-sm"
+                      >
+                        {sendingRequest ? "..." : "Connect"}
                       </button>
-
-                      {!currentMatch.isFriend && !currentMatch.requestSent && (
-                        <button
-                          onClick={sendFriendRequest}
-                          disabled={sendingRequest}
-                          className="flex-1 bg-green-600 hover:bg-green-500 px-3 py-1.5 rounded-md text-sm"
-                        >
-                          {sendingRequest ? "..." : "Connect"}
-                        </button>
-                      )}
-                    </div>
-
-                    {currentMatch.isFriend && (
-                      <p className="mt-2 text-xs text-green-400">
-                        ✔ Already your friend
-                      </p>
-                    )}
-
-                    {currentMatch.requestSent && (
-                      <p className="mt-2 text-xs text-yellow-400">
-                        ⏳ Request sent
-                      </p>
                     )}
                   </div>
 
+                  {currentMatch.isFriend && (
+                    <p className="mt-2 text-xs text-green-400">
+                      ✔ Already your friend
+                    </p>
+                  )}
+
+                  {currentMatch.requestSent && (
+                    <p className="mt-2 text-xs text-yellow-400">
+                      ⏳ Request sent
+                    </p>
+                  )}
+                </div>
+
+                <div className="mt-4">
                   <div className="bg-zinc-950 border border-zinc-800 rounded-lg p-3 text-sm space-y-2">
                     <p>
                       <span className="text-zinc-400">Role:</span>{" "}
@@ -278,9 +277,54 @@ const Dashboard = () => {
                         )}
                       </div>
                     </div>
+
+                    <div className="flex items-center justify-center gap-4 mt-4">
+
+                      {/* Cancel / Skip */}
+                      <button
+                        onClick={fetchMatch}
+                        className="p-3 rounded-full bg-zinc-800 hover:bg-zinc-700 transition"
+                      >
+                        <img
+                          src={cancelButton}
+                          alt="Skip"
+                          className="w-5 h-5 invert opacity-80 hover:opacity-100"
+                        />
+                      </button>
+
+                      {/* Like */}
+                      <button
+                        onClick={fetchMatch}
+                        className="rounded-full bg-transparent hover:bg-zinc-700 transition cursor-pointer"
+                      >
+                        <img
+                          src={heartButton}
+                          alt="Like"
+                          className="w-16 h-16 opacity-80 hover:opacity-100"
+                        />
+                      </button>
+
+                      {/* Chat / Profile */}
+                      <button
+                        onClick={fetchMatch}
+                        className="p-3 rounded-full bg-zinc-800 hover:bg-zinc-700 transition"
+                      >
+                        <img
+                          src={chatButton}
+                          alt="Chat"
+                          className="w-5 h-5 invert  hover:opacity-100"
+                        />
+                      </button>
+
+                    </div>
+
                   </div>
 
+
+
                 </div>
+
+
               </div>
             )}
 
@@ -318,14 +362,14 @@ const Dashboard = () => {
                 key={friend._id}
                 className="flex justify-between items-center bg-zinc-900 p-2 rounded-md mt-2"
               >
-                <div className="flex gap-2">
+                <div className="flex items-center gap-2">
                   <img
-                    onClick={() => navigate(`/user/${currentMatch.username}`)}
+                    onClick={() => navigate(`/user/${friend.username}`)}
                     src={friend.avatar}
                     alt="avatar"
                     className="w-8 h-8 rounded-full border border-zinc-800 cursor-pointer"
                   />
-                  <span onClick={() => navigate(`/user/${currentMatch.username}`)} className="text-white text-sm cursor-pointer">{friend.username}</span>
+                  <span onClick={() => navigate(`/user/${friend.username}`)} className="text-white text-sm cursor-pointer">{friend.username}</span>
                 </div>
                 <button
                   onClick={() => navigate(`/chat/${friend.username}`)}

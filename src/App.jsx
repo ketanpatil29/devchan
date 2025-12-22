@@ -8,6 +8,7 @@ import Layout from './Layout';
 import Login from './components/Login';
 import Profile from './components/Profile';
 import UserProfile from './components/UserProfile';
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -21,7 +22,8 @@ function App() {
           <Route path="/user/:username" element={<UserProfile />} />
         </Route>
       </Routes>
-
+      
+      <Footer />
       <Analytics />
     </BrowserRouter>
   );
