@@ -204,19 +204,12 @@ const Dashboard = () => {
                     ))}
                   </div>
 
-                  <div className="flex flex-col gap-2 mt-4 w-full">
+                  <div className="flex flex-col gap-2 mt-4">
                     <button
                       onClick={fetchMatch}
                       className="flex-1 bg-zinc-800 hover:bg-zinc-700 px-3 py-1.5 rounded-md text-sm cursor-pointer"
                     >
                       Next
-                    </button>
-
-                    <button
-                      onClick={fetchMatch}
-                      className="flex-1 bg-zinc-800 hover:bg-zinc-700 px-3 py-1.5 rounded-md text-sm cursor-pointer"
-                    >
-                      Message
                     </button>
 
                     {!currentMatch.isFriend && !currentMatch.requestSent && (
@@ -319,12 +312,7 @@ const Dashboard = () => {
                     </div>
 
                   </div>
-
-
-
                 </div>
-
-
               </div>
             )}
 
