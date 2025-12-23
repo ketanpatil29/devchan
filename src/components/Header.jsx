@@ -77,7 +77,6 @@ const Header = ({ userData, openProfileMenu, setOpenProfileMenu, handleLogout, n
                   </span>
                 </div>
               ))
-
             )}
           </div>
         )}

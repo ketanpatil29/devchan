@@ -11,7 +11,7 @@ const Footer = () => {
             <div className="max-w-7xl mx-auto px-4 py-6 flex flex-col md:flex-row justify-center gap-4">
                 {/* Center links */}
                 <div className="flex flex-wrap items-center justify-center gap-4">
-                    <a href="https://github.com/ketanpatil29" target="_blank" rel="noopener noreferrer" className="inline-flex items-center transition-colors hover:text-white">
+                    <a href="https://github.com/ketanpatil29/devchan" target="_blank" rel="noopener noreferrer" className="inline-flex items-center transition-colors hover:text-white">
                         <FaGithub className="w-7 h-7" />
                     </a>
                     <a className="hover:text-white" href="#">copyright</a>

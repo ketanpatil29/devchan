@@ -6,7 +6,7 @@ import { useOutletContext } from "react-router-dom";
 import sendButton from "../assets/send.png";
 import heartButton from "../assets/heart.png";
 import cancelButton from "../assets/close.png";
-import chatButton from "../assets/text-bubble.png";
+import chatButton from "../assets/message.png";
 
 const TypingText = ({ text, speed = 120 }) => {
   const [displayMessage, setDisplayMessage] = useState("");
