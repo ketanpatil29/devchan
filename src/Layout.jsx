@@ -5,6 +5,7 @@ import Header from "./components/Header";
 const Layout = () => {
   const [userData, setUserData] = useState(null);
   const [openProfileMenu, setOpenProfileMenu] = useState(false);
+  const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
     const storedUsername = localStorage.getItem("githubUsername");
@@ -33,6 +34,19 @@ const Layout = () => {
     }
   };
 
+  const handleHeartClick = (matchedUser) => {
+    setNotifications((prev) => [
+      {
+        id: Date.now(),
+        type: "MATCH",
+        message: `🎉 You and ${matchedUser.username} matched`,
+        avatar: matchedUser.avatar,
+      },
+      ...prev,
+    ]);
+  };
+
+
   return (
     <div className="bg-black exo-font min-h-screen">
       <Header
@@ -40,6 +54,8 @@ const Layout = () => {
         openProfileMenu={openProfileMenu}
         setOpenProfileMenu={setOpenProfileMenu}
         handleLogout={handleLogout}
+        notifications={notifications}
+        setNotifications={setNotifications}
       />
 
       {/* Main content below header */}

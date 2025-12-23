@@ -3,6 +3,72 @@ import User from "./user.js";
 
 const router = express.Router();
 
+router.post("/like", async (req, res) => {
+  try {
+    const { fromUsername, toUsername } = req.body;
+
+    if (fromUsername === toUsername) {
+      return res.status(400).json({ message: "Cannot like yourself" });
+    }
+
+    const fromUser = await User.findOne({ username: fromUsername });
+    const toUser = await User.findOne({ username: toUsername });
+
+    if (!fromUser || !toUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Prevent duplicate like
+    if (fromUser.likesSent.includes(toUser._id)) {
+      return res.status(400).json({ message: "Already liked" });
+    }
+
+    // Save like
+    fromUser.likesSent.push(toUser._id);
+    toUser.likesReceived.push(fromUser._id);
+
+    // 🔁 CHECK MATCH
+    const isMatch = toUser.likesSent.includes(fromUser._id);
+
+    if (isMatch) {
+      // Add to matches
+      fromUser.matches.push(toUser._id);
+      toUser.matches.push(fromUser._id);
+
+      // Notifications for BOTH
+      fromUser.notifications.push({
+        type: "MATCH",
+        from: toUser._id,
+        message: `You matched with ${toUser.username}`,
+      });
+
+      toUser.notifications.push({
+        type: "MATCH",
+        from: fromUser._id,
+        message: `You matched with ${fromUser.username}`,
+      });
+    } else {
+      // Like notification only
+      toUser.notifications.push({
+        type: "LIKE",
+        from: fromUser._id,
+        message: `${fromUser.username} liked your profile`,
+      });
+    }
+
+    await fromUser.save();
+    await toUser.save();
+
+    res.json({
+      success: true,
+      isMatch,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 router.post("/connect", async (req, res) => {
   console.log("CONNECT BODY:", req.body);
 
@@ -69,5 +135,22 @@ router.post("/accept", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
+router.get("/notifications/:username", async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.params.username })
+      .populate("notifications.from", "username avatar");
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json(user.notifications);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 
 export default router;

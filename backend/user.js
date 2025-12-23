@@ -19,6 +19,48 @@ const UserSchema = new mongoose.Schema({
 
   status: { type: String, default: "Available" },
 
+  likesSent: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    }
+  ],
+
+  likesReceived: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    }
+  ],
+
+  matches: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    }
+  ],
+
+  notifications: [
+    {
+      type: {
+        type: String,
+      },
+      from: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+      message: String,
+      isRead: {
+        type: Boolean,
+        default: false,
+      },
+      createdAt: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
+
   friends: [
     {
       type: mongoose.Schema.Types.ObjectId,

@@ -76,6 +76,37 @@ const Dashboard = () => {
 
   const profileCompleted = userData?.profileCompleted === true;
 
+  const handleLike = async () => {
+    if (!currentMatch) return;
+
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/user/like`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({
+            fromUsername: username,
+            toUsername: currentMatch.username,
+          }),
+        }
+      );
+
+      const data = await res.json();
+
+      if (data.isMatch) {
+        alert("🔥 It's a match! You can now connect or chat.");
+      }
+
+      // Move to next profile after like
+      fetchMatch();
+
+    } catch (err) {
+      console.error("Like failed", err);
+    }
+  };
+
   const fetchMatch = () => {
     setMatchLoading(true);
     setNoMatch(false);
@@ -140,7 +171,7 @@ const Dashboard = () => {
 
   return (
     <section className="bg-black min-h-screen px-4 pb-24">
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6 max-w-full mx-auto">
+      <div className="gap-6 max-w-full mx-auto">
 
         <div>
           {!profileCompleted && (
@@ -158,7 +189,15 @@ const Dashboard = () => {
             </div>
           )}
 
-          <div className="mt-16 rounded-lg p-6 flex flex-col items-center w-full sm:w-[95%] md:w-[90%] lg:w-[1000px] mx-auto">
+          <div className="mt-4 rounded-lg p-6 flex flex-col items-center w-full sm:w-[95%] md:w-[90%] lg:w-[1000px] mx-auto">
+
+            <div className="text-center mb-8">
+              <h2 className="text-6xl font-bold mb-3 bg-linear-to-r from-zinc-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent">
+                Find Your Dev Match
+              </h2>
+              <p className="text-gray-500 text-sm">Connect with developers who share your vision</p>
+            </div>
+
             <button
               onClick={fetchMatch}
               className="bg-zinc-900 border border-zinc-800 text-white rounded-md p-3 w-full sm:w-auto cursor-pointer"
@@ -287,7 +326,7 @@ const Dashboard = () => {
 
                       {/* Like */}
                       <button
-                        onClick={fetchMatch}
+                        onClick={handleLike}
                         className="rounded-full bg-transparent hover:bg-zinc-700 transition cursor-pointer"
                       >
                         <img
@@ -320,30 +359,9 @@ const Dashboard = () => {
         </div>
 
         {/* RIGHT (moves below on mobile) */}
-        <div className="mt-6">
-          <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-4">
+        <div className="flex items-center justify-center mx-auto my-4">
+          <div className="bg-zinc-950 border border-zinc-800 w-100 rounded-xl p-3">
             <h2 className="text-white font-semibold mb-2">Friends</h2>
-
-            {friendRequests.length === 0 && (
-              <p className="text-zinc-400 text-sm">No requests</p>
-            )}
-
-            {friendRequests.map((req) => (
-              <div
-                key={req.from._id}
-                className="flex justify-between items-center bg-zinc-900 p-2 rounded-md mb-2"
-              >
-                <span className="text-white text-sm">
-                  {req.from.username}
-                </span>
-                <button
-                  onClick={() => acceptFriendRequest(req.from._id)}
-                  className="bg-blue-600 px-2 py-1 rounded text-sm"
-                >
-                  Accept
-                </button>
-              </div>
-            ))}
 
             {userData.friends?.map((friend) => (
               <div
@@ -372,6 +390,32 @@ const Dashboard = () => {
 
               </div>
             ))}
+
+            <div className="flex justify-center my-2">
+              <div className="h-px w-full bg-zinc-800"></div>
+            </div>
+
+            {friendRequests.length === 0 && (
+              <p className="text-zinc-400 text-sm">No requests</p>
+            )}
+
+            {friendRequests.map((req) => (
+              <div
+                key={req.from._id}
+                className="flex justify-between items-center bg-zinc-900 p-2 rounded-md mb-2"
+              >
+                <span className="text-white text-sm">
+                  {req.from.username}
+                </span>
+                <button
+                  onClick={() => acceptFriendRequest(req.from._id)}
+                  className="bg-blue-600 px-2 py-1 rounded text-sm"
+                >
+                  Accept
+                </button>
+              </div>
+            ))}
+
           </div>
         </div>
 
