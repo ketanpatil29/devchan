@@ -77,7 +77,10 @@ const Dashboard = () => {
   const profileCompleted = userData?.profileCompleted === true;
 
   const handleLike = async () => {
-    if (!currentMatch) return;
+    if (!currentMatch || !username) {
+      console.warn("Like blocked: missing data", { username, currentMatch });
+      return;
+    }
 
     try {
       const res = await fetch(
@@ -95,13 +98,16 @@ const Dashboard = () => {
 
       const data = await res.json();
 
+      if (!res.ok) {
+        console.error("Like error:", data.message);
+        return;
+      }
+
       if (data.isMatch) {
         alert("🔥 It's a match! You can now connect or chat.");
       }
 
-      // Move to next profile after like
-      fetchMatch();
-
+      fetchMatch(); // move forward
     } catch (err) {
       console.error("Like failed", err);
     }
@@ -331,6 +337,7 @@ const Dashboard = () => {
                       >
                         <img
                           src={heartButton}
+                          disabled={!username || !currentMatch}
                           alt="Like"
                           className="w-16 h-16 opacity-80 hover:opacity-100"
                         />
