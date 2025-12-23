@@ -60,7 +60,7 @@ const Layout = () => {
 
       {/* Main content below header */}
       <main className="pt-18">
-        <Outlet />
+        <Outlet context={{ handleHeartClick }}/>
       </main>
     </div>
   );

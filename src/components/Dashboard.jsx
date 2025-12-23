@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 
+import { useOutletContext } from "react-router-dom";
+
 import sendButton from "../assets/send.png";
 import heartButton from "../assets/heart.png";
 import cancelButton from "../assets/close.png";
@@ -43,6 +45,8 @@ const Dashboard = () => {
   const [friendRequests, setFriendRequests] = useState([]);
   const [sendingRequest, setSendingRequest] = useState(false);
   const [requestSent, setRequestSent] = useState(false);
+
+  const { handleHeartClick } = useOutletContext();
 
   const navigate = useNavigate();
 
@@ -99,8 +103,7 @@ const Dashboard = () => {
       const data = await res.json();
 
       if (!res.ok) {
-        console.error("Like error:", data.message);
-        return;
+        handleHeartClick(data.matchedUser);
       }
 
       if (data.isMatch) {
