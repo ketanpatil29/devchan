@@ -57,13 +57,16 @@ const Header = ({ userData, openProfileMenu, setOpenProfileMenu, handleLogout, n
             ) : (
               notifications.map((n) => (
                 <div
-                  key={n.id}
+                  key={n._id}
                   className="flex items-center gap-3 p-3 hover:bg-zinc-900"
                 >
-                  <img src={n.avatar} className="w-8 h-8 rounded-full" />
+                  <div className="w-8 h-8 rounded-full bg-zinc-700 flex items-center justify-center text-white text-xs">
+                    🔔
+                  </div>
                   <p className="text-sm text-white">{n.message}</p>
                 </div>
               ))
+
             )}
           </div>
         )}

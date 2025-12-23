@@ -16,7 +16,10 @@ const Layout = () => {
         credentials: "include"
       })
         .then(res => res.json())
-        .then(data => setUserData(data))
+        .then(data => {
+          setUserData(data);
+          setNotifications(data.notifications || []);
+        })
         .catch(err => console.error(err));
     }
   }, []);
@@ -60,7 +63,7 @@ const Layout = () => {
 
       {/* Main content below header */}
       <main className="pt-18">
-        <Outlet context={{ handleHeartClick }}/>
+        <Outlet context={{ handleHeartClick }} />
       </main>
     </div>
   );
