@@ -103,6 +103,11 @@ const Dashboard = () => {
       const data = await res.json();
 
       if (!res.ok) {
+        console.error("Like error:", data.message);
+        return;
+      }
+
+      if (data.matched && data.matchedUser) {
         handleHeartClick(data.matchedUser);
       }
 
