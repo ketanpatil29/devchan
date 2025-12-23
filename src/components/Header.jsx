@@ -10,6 +10,14 @@ const Header = ({ userData, openProfileMenu, setOpenProfileMenu, handleLogout, n
 
   const [openNotifications, setOpenNotifications] = useState(false);
 
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString("en-IN", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+  };
+
   return (
     <header className="bg-black shadow shadow-zinc-800 fixed top-0 left-0 w-full h-14 flex items-center px-4 z-50">
 
@@ -51,7 +59,7 @@ const Header = ({ userData, openProfileMenu, setOpenProfileMenu, handleLogout, n
         </button>
 
         {openNotifications && (
-          <div className="absolute top-14 right-16 w-72 bg-black border border-zinc-800 rounded-md shadow-lg">
+          <div className="absolute top-16 right-16 w-72 bg-black border border-zinc-800 rounded-md shadow-lg">
             {notifications.length === 0 ? (
               <p className="text-zinc-400 p-4 text-sm">No notifications</p>
             ) : (
@@ -64,13 +72,15 @@ const Header = ({ userData, openProfileMenu, setOpenProfileMenu, handleLogout, n
                     🔔
                   </div>
                   <p className="text-sm text-white">{n.message}</p>
+                  <span className="text-xs text-zinc-400">
+                    {formatDate(n.createdAt)}
+                  </span>
                 </div>
               ))
 
             )}
           </div>
         )}
-
 
         {userData && (
           <button
@@ -86,7 +96,7 @@ const Header = ({ userData, openProfileMenu, setOpenProfileMenu, handleLogout, n
         )}
 
         {openProfileMenu && (
-          <div className="absolute top-18 right-6 bg-black border border-zinc-800 text-white shadow-lg rounded-md w-48 py-2 z-50">
+          <div className="absolute top-16 right-6 bg-black border border-zinc-800 text-white shadow-lg rounded-md w-48 py-2 z-50">
             <button
               onClick={() => navigate("/profile")}
               className="block w-[90%] text-left px-2 py-2 mx-auto hover:bg-zinc-900 hover:rounded-md cursor-pointer"
