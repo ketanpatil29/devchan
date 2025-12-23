@@ -35,7 +35,7 @@ const Header = ({ userData, openProfileMenu, setOpenProfileMenu, handleLogout, n
 
         <button
           onClick={() => setOpenNotifications(!openNotifications)}
-          className="p-1 border border-zinc-800 rounded-md bg-zinc-900 hover:bg-zinc-800 transition"
+          className="relative p-1 border border-zinc-800 rounded-md bg-zinc-900 hover:bg-zinc-800 transition"
         >
           <img
             src={notificationIcon}
