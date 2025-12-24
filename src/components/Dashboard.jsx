@@ -8,7 +8,7 @@ import heartButton from "../assets/heart.png";
 import addFriend from "../assets/add-user.png";
 import cancelButton from "../assets/close.png";
 import chatButton from "../assets/message.png";
-import removeFriend from "../assets/remove-user.png";
+import removeFriendButton from "../assets/remove-user.png";
 
 const TypingText = ({ text, speed = 120 }) => {
   const [displayMessage, setDisplayMessage] = useState("");
@@ -444,26 +444,28 @@ const Dashboard = () => {
                   />
                   <span onClick={() => navigate(`/user/${friend.username}`)} className="text-white text-sm cursor-pointer">{friend.username}</span>
                 </div>
-                <button
-                  onClick={() => navigate(`/chat/${friend.username}`)}
-                  className="p-3 rounded-full bg-zinc-800 hover:bg-zinc-700 transition"
-                >
-                  <img
-                    src={chatButton}
-                    alt="Chat"
-                    className="w-5 h-5 invert  hover:opacity-100"
-                  />
-                </button>
-                <button
-                  onClick={() => removeFriend(friend.username)}
-                  className="p-3 rounded-full bg-zinc-800 hover:bg-zinc-700 transition"
-                >
-                  <img
-                    src={removeFriend}
-                    alt="Chat"
-                    className="w-5 h-5 invert  hover:opacity-100"
-                  />
-                </button>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => navigate(`/chat/${friend.username}`)}
+                    className="p-3 rounded-full bg-zinc-800 hover:bg-zinc-700 transition"
+                  >
+                    <img
+                      src={chatButton}
+                      alt="Chat"
+                      className="w-5 h-5 invert  hover:opacity-100"
+                    />
+                  </button>
+                  <button
+                    onClick={() => removeFriend(friend.username)}
+                    className="p-3 rounded-full bg-zinc-800 hover:bg-zinc-700 transition"
+                  >
+                    <img
+                      src={removeFriendButton}
+                      alt="Chat"
+                      className="w-5 h-5 invert  hover:opacity-100"
+                    />
+                  </button>
+                </div>
 
               </div>
             ))}
