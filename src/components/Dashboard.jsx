@@ -381,11 +381,35 @@ const Dashboard = () => {
                       </button>
 
                       {/* Like */}
-                      {!currentMatch.alreadyLiked ? (
-                        /* HEART (not liked yet) */
+                      {/* FRIEND */}
+                      {currentMatch.isFriend ? (
+                        <span className="text-green-400 text-sm">Friends</span>
+
+                      ) : currentMatch.requestSent ? (
+
+                        /* REQUEST SENT */
+                        <span className="text-zinc-400 text-sm">Request Sent</span>
+
+                      ) : currentMatch.alreadyLiked ? (
+
+                        /* ADD FRIEND */
+                        <button
+                          onClick={sendFriendRequest}
+                          className="rounded-full bg-zinc-800 hover:bg-zinc-700 transition p-3"
+                        >
+                          <img
+                            src={addFriend}
+                            alt="Add Friend"
+                            className="w-6 h-6 invert"
+                          />
+                        </button>
+
+                      ) : (
+
+                        /* LIKE */
                         <button
                           onClick={handleLike}
-                          disabled={liking || currentMatch.alreadyLiked}
+                          disabled={liking}
                           className={`rounded-full transition ${liking ? "opacity-50 cursor-not-allowed" : "hover:bg-zinc-700"
                             }`}
                         >
@@ -395,21 +419,6 @@ const Dashboard = () => {
                             className="w-16 h-16 opacity-80 hover:opacity-100"
                           />
                         </button>
-                      ) : (
-                        /* ADD FRIEND (already liked) */
-                        !currentMatch.isFriend &&
-                        !currentMatch.requestSent && (
-                          <button
-                            onClick={sendFriendRequest}
-                            className="rounded-full bg-zinc-800 hover:bg-zinc-700 transition p-3"
-                          >
-                            <img
-                              src={addFriend}
-                              alt="Add Friend"
-                              className="w-6 h-6 invert"
-                            />
-                          </button>
-                        )
                       )}
 
                       {/* Chat / Profile */}

@@ -67,6 +67,11 @@ router.get("/match/:username", async (req, res) => {
       req => req.from.toString() === user._id.toString()
     );
 
+    // ✅ CHECK IF ALREADY LIKED (ANYTIME IN PAST)
+    const alreadyLiked = user.likesSent.some(
+      id => id.toString() === match._id.toString()
+    );
+
     // ✅ SEND SINGLE RESPONSE
     return res.json({
       _id: match._id,
@@ -79,7 +84,8 @@ router.get("/match/:username", async (req, res) => {
       experience: match.experience,
       interests: match.interests,
       isFriend,
-      requestSent
+      requestSent,
+      alreadyLiked
     });
 
   } catch (error) {
