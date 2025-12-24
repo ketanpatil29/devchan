@@ -354,7 +354,7 @@ const Dashboard = () => {
                       {/* Chat / Profile */}
                       <button
                         onClick={fetchMatch}
-                        className="p-3 rounded-full bg-zinc-800 hover:bg-zinc-700 transition"
+                        className="p-3 rounded-full bg-zinc-800 hover:bg-zinc-700 transition cursor-pointer"
                       >
                         <img
                           src={chatButton}
@@ -394,12 +394,12 @@ const Dashboard = () => {
                 </div>
                 <button
                   onClick={() => navigate(`/chat/${friend.username}`)}
-                  className="p-2 rounded-md bg-transparent hover:bg-zinc-800 transition"
+                  className="p-3 rounded-full bg-zinc-800 hover:bg-zinc-700 transition"
                 >
                   <img
-                    src={sendButton}
+                    src={chatButton}
                     alt="Chat"
-                    className="w-5 h-5 opacity-80 hover:opacity-100"
+                    className="w-5 h-5 invert  hover:opacity-100"
                   />
                 </button>
 
