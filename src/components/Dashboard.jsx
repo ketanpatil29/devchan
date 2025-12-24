@@ -8,6 +8,7 @@ import heartButton from "../assets/heart.png";
 import addFriend from "../assets/add-user.png";
 import cancelButton from "../assets/close.png";
 import chatButton from "../assets/message.png";
+import removeFriend from "../assets/remove-user.png";
 
 const TypingText = ({ text, speed = 120 }) => {
   const [displayMessage, setDisplayMessage] = useState("");
@@ -186,6 +187,36 @@ const Dashboard = () => {
       )
     );
   };
+
+  const removeFriend = async (friendUsername) => {
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/user/remove-friend`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({
+            fromUsername: username,
+            toUsername: friendUsername,
+          }),
+        }
+      );
+
+      if (res.ok) {
+        // Update UI instantly
+        setUserData(prev => ({
+          ...prev,
+          friends: prev.friends.filter(
+            f => f.username !== friendUsername
+          ),
+        }));
+      }
+    } catch (err) {
+      console.error("Remove friend failed", err);
+    }
+  };
+
 
   return (
     <section className="bg-black min-h-screen px-4 pb-24">
@@ -419,6 +450,16 @@ const Dashboard = () => {
                 >
                   <img
                     src={chatButton}
+                    alt="Chat"
+                    className="w-5 h-5 invert  hover:opacity-100"
+                  />
+                </button>
+                <button
+                  onClick={() => removeFriend(friend.username)}
+                  className="p-3 rounded-full bg-zinc-800 hover:bg-zinc-700 transition"
+                >
+                  <img
+                    src={removeFriend}
                     alt="Chat"
                     className="w-5 h-5 invert  hover:opacity-100"
                   />

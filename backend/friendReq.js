@@ -136,6 +136,45 @@ router.post("/accept", async (req, res) => {
   }
 });
 
+router.post("/remove-friend", async (req, res) => {
+  try {
+    const { fromUsername, toUsername } = req.body;
+
+    const fromUser = await User.findOne({ username: fromUsername });
+    const toUser = await User.findOne({ username: toUsername });
+
+    if (!fromUser || !toUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Remove each other from friends list
+    fromUser.friends = fromUser.friends.filter(
+      id => id.toString() !== toUser._id.toString()
+    );
+
+    toUser.friends = toUser.friends.filter(
+      id => id.toString() !== fromUser._id.toString()
+    );
+
+    // OPTIONAL: also remove from matches
+    fromUser.matches = fromUser.matches.filter(
+      id => id.toString() !== toUser._id.toString()
+    );
+
+    toUser.matches = toUser.matches.filter(
+      id => id.toString() !== fromUser._id.toString()
+    );
+
+    await fromUser.save();
+    await toUser.save();
+
+    res.json({ success: true, message: "Friend removed successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 router.get("/notifications/:username", async (req, res) => {
   try {
     const user = await User.findOne({ username: req.params.username })
