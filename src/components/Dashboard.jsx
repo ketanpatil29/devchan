@@ -48,6 +48,8 @@ const Dashboard = () => {
   const [sendingRequest, setSendingRequest] = useState(false);
   const [requestSent, setRequestSent] = useState(false);
 
+  const [liking, setLiking] = useState(false);
+
   const { handleHeartClick } = useOutletContext();
 
   const navigate = useNavigate();
@@ -83,10 +85,12 @@ const Dashboard = () => {
   const profileCompleted = userData?.profileCompleted === true;
 
   const handleLike = async () => {
-    if (!currentMatch || !username) {
+    if (!currentMatch || !username || liking) {
       console.warn("Like blocked: missing data", { username, currentMatch });
       return;
     }
+
+    setLiking(true);
 
     try {
       const res = await fetch(
@@ -121,8 +125,11 @@ const Dashboard = () => {
         ...prev,
         alreadyLiked: true,
       }));
+
     } catch (err) {
       console.error("Like failed", err);
+    } finally {
+      setLiking(false); // unlock
     }
   };
 
@@ -378,7 +385,9 @@ const Dashboard = () => {
                         /* HEART (not liked yet) */
                         <button
                           onClick={handleLike}
-                          className="rounded-full bg-transparent hover:bg-zinc-700 transition"
+                          disabled={liking || currentMatch.alreadyLiked}
+                          className={`rounded-full transition ${liking ? "opacity-50 cursor-not-allowed" : "hover:bg-zinc-700"
+                            }`}
                         >
                           <img
                             src={heartButton}
