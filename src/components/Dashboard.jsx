@@ -5,6 +5,7 @@ import { useOutletContext } from "react-router-dom";
 
 import sendButton from "../assets/send.png";
 import heartButton from "../assets/heart.png";
+import addFriend from "../assets/add-user.png";
 import cancelButton from "../assets/close.png";
 import chatButton from "../assets/message.png";
 
@@ -115,7 +116,10 @@ const Dashboard = () => {
         alert("🔥 It's a match! You can now connect or chat.");
       }
 
-      fetchMatch(); // move forward
+      setCurrentMatch((prev) => ({
+        ...prev,
+        alreadyLiked: true,
+      }));
     } catch (err) {
       console.error("Like failed", err);
     }
@@ -339,17 +343,34 @@ const Dashboard = () => {
                       </button>
 
                       {/* Like */}
-                      <button
-                        onClick={handleLike}
-                        className="rounded-full bg-transparent hover:bg-zinc-700 transition cursor-pointer"
-                      >
-                        <img
-                          src={heartButton}
-                          disabled={!username || !currentMatch}
-                          alt="Like"
-                          className="w-16 h-16 opacity-80 hover:opacity-100"
-                        />
-                      </button>
+                      {!currentMatch.alreadyLiked ? (
+                        /* HEART (not liked yet) */
+                        <button
+                          onClick={handleLike}
+                          className="rounded-full bg-transparent hover:bg-zinc-700 transition"
+                        >
+                          <img
+                            src={heartButton}
+                            alt="Like"
+                            className="w-16 h-16 opacity-80 hover:opacity-100"
+                          />
+                        </button>
+                      ) : (
+                        /* ADD FRIEND (already liked) */
+                        !currentMatch.isFriend &&
+                        !currentMatch.requestSent && (
+                          <button
+                            onClick={sendFriendRequest}
+                            className="rounded-full bg-zinc-800 hover:bg-zinc-700 transition p-3"
+                          >
+                            <img
+                              src={addFriend}
+                              alt="Add Friend"
+                              className="w-6 h-6 invert"
+                            />
+                          </button>
+                        )
+                      )}
 
                       {/* Chat / Profile */}
                       <button
